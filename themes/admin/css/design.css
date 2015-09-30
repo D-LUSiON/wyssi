@@ -1,0 +1,9 @@
+*,
+*:before,
+*:after { box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; }
+
+body { margin: 0; padding: 0; }
+.mainContainer { position: absolute; min-height: 100%; }
+.mainMenu-container { position: absolute; top: 0; bottom: 0; left: 0; z-index: 1000000; width: 100px; background-color: #4e4e4e; }
+.mainMenu-container .mainMenu-item { border-top: 1px solid #555; border-bottom: 1px solid #2d2d2d; padding: 10px 14px; color: #ececec; text-align: center; }
+
