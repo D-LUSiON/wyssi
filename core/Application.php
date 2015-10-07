@@ -6,24 +6,37 @@ class Application {
     public $method_name;
     public $controller_file;
     public $controller;
-    public $errorText;
+    public $query;
+    public $errorText = '';
     public $modules;
     
     function __construct() {
         $this->_autoloadPlugins();
-        $this->url = explode('/', strtolower(rtrim($_REQUEST['url'], '/')));
+        
+        $this->manageRequest();
         
         $this->setController();
         
         require $this->controller_file;
         
-        $this->controller = new $this->controller_name;
+        $this->controller = new $this->controller_name();
 
         if (method_exists($this->controller, $this->method_name)) {
-            $this->controller->{$this->method_name}($this->errorText);
+            $this->controller->{$this->method_name}($this->query, $this->errorText);
         } else {
-            echo 'method not found!';
+            echo 'method not found!<br/>';
         }
+    }
+    
+    private function manageRequest(){
+        $this->url = explode('/', strtolower(rtrim($_REQUEST['url'], '/')));
+        $query = Array();
+        foreach ($_REQUEST as $key=>$value) {
+            if ($key != 'url')
+                $query[$key] = $_REQUEST[$key];
+        }
+        
+        $this->query = $query;
     }
     
     private function setController(){
