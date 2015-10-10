@@ -15,7 +15,7 @@ class BaseController {
         $this->templateDir = ($_SESSION['admin'] == 'admin')? 'admin' : ($_SESSION['template']? $_SESSION['template'] : $_SESSION['template'] = 'base');
         
         $this->smarty->assign('siteDir', MAIN_DIR);
-        $this->smarty->assign('mainDir', MAIN_DIR . 'themes/' . $this->templateDir . '/');
+        $this->smarty->assign('mainDir', MAIN_DIR);
         $this->smarty->assign('themeDir', MAIN_DIR . 'themes/' . $this->templateDir . '/');
     }
     
