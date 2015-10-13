@@ -18,17 +18,27 @@
                     <div class="menu-container left">
                         <div class="menu-trigger fa fa-bars"></div>
                         <div class="menu-dropdown-container">
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
+                            <a href="{$mainDir}admin/index" class="menu-item">
+                                <span class="fa fa-home"></span> Home
+                            </a>
+                            <a href="{$mainDir}admin/themes" class="menu-item">
+                                <span class="fa fa-pencil-square-o"></span> Themes
+                            </a>
+                            <a href="{$mainDir}admin/pages" class="menu-item">
+                                <span class="fa fa-file-text-o"></span> Pages
+                            </a>
                         </div>
                     </div>
                     <div class="menu-container right">
                         <div class="menu-trigger fa fa-sign-out"></div>
                         <div class="menu-dropdown-container">
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
+                            <a href="{$mainDir}admin/user" class="menu-item">
+                                <div class="image-container">
+                                    <img src="{$mainDir}uploads/admins/no_avatar.jpg" alt=""/>
+                                </div>
+                                <span class="user-name">John Doe</span>
+                            </a>
+                            <a href="{$mainDir}admin/logout" class="menu-item border top">Log out</a>
                         </div>
                     </div>
                     <div class="logo-container">
@@ -37,17 +47,26 @@
                 </div>
             </div>
             <div class="menu-row2">
+                {if $controller != 'themes' and $method != 'edit'}
                 <ul class="submenu-container">
                     <li>
-                        <a href="{$mainDir}admin/index" class="">Home</a>
-                    </li>
-                    <li>
-                        <a href="{$mainDir}admin/themes" class="">Themes</a>
-                    </li>
-                    <li>
-                        <a href="{$mainDir}admin/pages" class="">Pages</a>
+                        <a href="{$mainDir}admin/help" class="">Help</a>
                     </li>
                 </ul>
+                {else}
+                <div class="layouts-container">
+                    <img src="{$mainDir}resources/layouts/design-fixed-1_column.jpg" alt=""/>
+                    <img src="{$mainDir}resources/layouts/design-fixed-1_column_footer.jpg" alt=""/>
+                    <img src="{$mainDir}resources/layouts/design-fixed-2_columns_footer_left_v1.jpg" alt=""/>
+                    <img src="{$mainDir}resources/layouts/design-fixed-2_columns_footer_left_v2.jpg" alt=""/>
+                    <img src="{$mainDir}resources/layouts/design-fixed-2_columns_footer_left_v3.jpg" alt=""/>
+                    <img src="{$mainDir}resources/layouts/design-fixed-2_columns_footer_left_v4.jpg" alt=""/>
+                    <img src="{$mainDir}resources/layouts/design-fixed-2_columns_footer_right_v1.jpg" alt=""/>
+                    <img src="{$mainDir}resources/layouts/design-fixed-2_columns_footer_right_v2.jpg" alt=""/>
+                    <img src="{$mainDir}resources/layouts/design-fixed-2_columns_footer_right_v3.jpg" alt=""/>
+                    <img src="{$mainDir}resources/layouts/design-fixed-2_columns_footer_right_v4.jpg" alt=""/>
+                </div>
+                {/if}
             </div>
         </header>
         <div id="MainContent">
