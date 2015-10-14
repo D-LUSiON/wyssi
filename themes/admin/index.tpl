@@ -6,6 +6,7 @@
         <title>Wyssi admin</title>
         <link rel="stylesheet" type="text/css" href="css/font-awesome.css" media="all"/>
         <link rel="stylesheet" type="text/css" href="css/design.css" media="all"/>
+        <script type="text/javascript" src="js/js.missing_functions.js"></script>
         <script type="text/javascript" src="js/jquery.js"></script>
         <script type="text/javascript" src="js/jquery-ui.js"></script>
         <script type="text/javascript" src="js/jquery.modalWindow.js"></script>
