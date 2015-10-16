@@ -11,7 +11,7 @@ img { display: block; width: 100%; }
 .left { float: left; }
 .right { float: right; }
 
-header { color: #ddd; }
+header { position: absolute; top: 0; right: 0; left: 0; z-index: 100; color: #ddd; }
 header .menu-row1 { border-bottom: 1px solid #2F3552; padding: 15px 0; background-color: #394264; }
 header .menu-row1 .menu-container { }
 header .menu-row1 .menu-container > .menu-trigger { font-size: 32px; cursor: pointer; }
@@ -41,8 +41,10 @@ header .submenu-container li a { display: inline-block; font-family: arial, taho
 
 section { padding: 20px; }
 
-#MainContent {}
+#MainContent { position: absolute; top: 61px; right: 0; bottom: 0; left: 0; z-index: 1; }
 #MainContent .masonry-container {}
 #MainContent .masonry-container .masonry-element-container { width: 235px; margin-top: 14px; border-radius: 5px; background-color: #394264; overflow: hidden; }
 #MainContent .masonry-container .masonry-element-container .element-add { display: block; width: 100%; margin: 0; padding: 50px 0; text-align: center; font-size: 75px; background-color: white; color: #333; }
 #MainContent .masonry-container .masonry-element-container .element-info { padding: 10px; background-color: #50597b; color: #ddd; font-size: 14px; }
+
+#ThemeEditor-container { min-height: 100%; }

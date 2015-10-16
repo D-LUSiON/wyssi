@@ -12,7 +12,7 @@
         <script type="text/javascript" src="js/jquery.modalWindow.js"></script>
         <script type="text/javascript" src="js/common-scripts.js"></script>
     </head>
-    <body>
+    <body data-main_dir="{$mainDir}">
         <header>
             <div class="menu-row1">
                 <div class="wrapper">
@@ -56,16 +56,7 @@
                 </ul>
                 {else}
                 <div class="layouts-container">
-                    <img src="{$mainDir}resources/layouts/design-fixed-1_column.jpg" alt=""/>
-                    <img src="{$mainDir}resources/layouts/design-fixed-1_column_footer.jpg" alt=""/>
-                    <img src="{$mainDir}resources/layouts/design-fixed-2_columns_footer_left_v1.jpg" alt=""/>
-                    <img src="{$mainDir}resources/layouts/design-fixed-2_columns_footer_left_v2.jpg" alt=""/>
-                    <img src="{$mainDir}resources/layouts/design-fixed-2_columns_footer_left_v3.jpg" alt=""/>
-                    <img src="{$mainDir}resources/layouts/design-fixed-2_columns_footer_left_v4.jpg" alt=""/>
-                    <img src="{$mainDir}resources/layouts/design-fixed-2_columns_footer_right_v1.jpg" alt=""/>
-                    <img src="{$mainDir}resources/layouts/design-fixed-2_columns_footer_right_v2.jpg" alt=""/>
-                    <img src="{$mainDir}resources/layouts/design-fixed-2_columns_footer_right_v3.jpg" alt=""/>
-                    <img src="{$mainDir}resources/layouts/design-fixed-2_columns_footer_right_v4.jpg" alt=""/>
+                    <img src="{$mainDir}resources/layouts/design01.jpg" alt=""/>
                 </div>
                 {/if}
             </div>

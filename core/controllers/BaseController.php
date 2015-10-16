@@ -32,5 +32,12 @@ class BaseController {
         
         $this->smarty->display($master);
     }
+    
+    public function json_response($json = NULL) {
+        if ($json) {
+            $this->smarty->assign('json_response', json_encode($json));
+            $this->smarty->display($this->templateDir . '/' . 'json.tpl');
+        }
+    }
 
 }

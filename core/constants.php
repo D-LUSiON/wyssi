@@ -2,6 +2,7 @@
 
 define('CORE_DIR', 'core/');
 define('MODULES_DIR', 'modules/');
+define('RESOURCES_DIR', 'resources/');
 
 $_SESSION['template'] = isset($_REQUEST['tmpl'])? $_REQUEST['tmpl'] : $_SESSION['template'];
 

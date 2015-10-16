@@ -1,0 +1,9 @@
+{
+    "type": "Layout",
+    "name": "Header and main content",
+    "thumb": "design01.jpg",
+    "resources": {
+        "css": "design01.css",
+        "js": ""
+    }
+}

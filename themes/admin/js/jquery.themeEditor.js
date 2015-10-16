@@ -1,6 +1,3 @@
-//TODO: Да се обединят _filterResults и _setFilteredResults - няма смисъл да се обикаля още един път целия масив с данни;
-//TODO: Да се измисли как да се добавят всички резултати на веднъж в dropdown-а, но да се запази на всеки елемент data-та;
-
 /**
  * TITLE: WYSSI theme editor script
  * AUTHOR: Lubomir Peikov
@@ -26,6 +23,35 @@
     window.Localization[pluginName] = {
         en: {}
     };
+    
+    var Theme = function(options){
+        var obj = this;
+        
+        var defaults = {
+            url: {
+                get_theme: 'admin/themes/getTheme',
+                save_theme: 'admin/themes/saveTheme'
+            }
+        };
+        
+        this.id;
+        this.layout;
+        this.sections;
+        this.elements;
+        this.widgets;
+        
+        var _ = {
+            settings: $.extend(true, {}, defaults, options || {})
+        };
+        
+        function __construct(){}
+        
+        this.getTheme = function(id){
+            
+        };
+        
+        __construct();
+    };
 
     /**
      * Main Class of the plugin
@@ -43,19 +69,26 @@
         var defaults = {
             lang: 'en',
             selectors: {
-                main_menu_container: 'body > header'
+                main_menu_container: 'body .layouts-container > img',
+                main_preview_container: '#ThemeEditor-container'
+            },
+            url: {
+                get_resources: 'admin/themes/getResources'
             },
             html: {
                 
             }
         };
+        
         var _ = {
             $elements: {
-                body: $('body'),
-                main_menu_container: $()
+                body: $('body')
             },
-            settings: $.extend(true, {}, defaults, options || {})
+            settings: $.extend(true, {}, defaults, options || {}),
+            main_dir: ''
         };
+        
+        var theme = new Theme();
 
         /**
          * Initialization of the object
@@ -64,13 +97,20 @@
         function __construct() {
             _buildSelectors();
             _buildHTMLElements();
-            _runEventListeners();
+            _getResources(function(elements_data){
+                console.log(elements_data);
+                _runEventListeners();
+            });
+            
             return this;
         }
         
         function _buildSelectors(){
             for (var key in _.settings.selectors)
                 _.$elements[key] = $(_.settings.selectors[key]);
+            if (_.$elements.main_preview_container.data('id'))
+                obj.theme
+            _.main_dir = _.$elements.body.data('main_dir')
             return true;
         }
         
@@ -78,11 +118,32 @@
             
         }
         
+        function _getResources(callback){
+            $.ajax({
+                url: _.main_dir + _.settings.url.get_resources,
+                //dataType: 'json',
+                success: function(data){
+                    if (typeof callback === 'function') {
+                        callback(data);
+                    }
+                }
+            });
+        }
+        
         /**
          * Run event listeners
          * @returns {Boolean}
          */
         function _runEventListeners(){
+            _.$elements.main_menu_container.draggable({
+                helper: 'clone'
+            });
+            _.$elements.main_preview_container.droppable({
+                drop: function(e, ui){
+                    console.log($(ui.draggable).data());
+                    //$(this).append($(ui.draggable).clone());
+                }
+            });
             return true;
         }
 
