@@ -7,6 +7,7 @@
 
    <!--- Basic Page Needs
    ================================================== -->
+   <base href="{$themeDir}"/>
    <meta charset="utf-8">
 	<title>Woo - Free Responsive HTML5/CSS3 Template</title>
 	<meta name="description" content="">  

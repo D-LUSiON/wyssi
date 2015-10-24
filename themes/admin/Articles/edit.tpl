@@ -1,1 +1,1 @@
-edit article
+{include file=$template_public}

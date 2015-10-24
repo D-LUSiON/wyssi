@@ -51,7 +51,7 @@ class Application {
                 // not found
                 $this->errorText = 'Controller "' . $this->controller_name . '" not found!';
                 $this->controller_file = 'core/controllers/' . (($this->admin)? ADMIN_DIR . '/' : ''). 'Error.php';
-                $this->controller_name = 'Controllers\Error';
+                $this->controller_name = 'Error';
             }
         }
         
