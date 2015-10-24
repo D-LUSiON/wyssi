@@ -28,6 +28,9 @@
                             <a href="{$mainDir}admin/pages" class="menu-item">
                                 <span class="fa fa-file-text-o"></span> Pages
                             </a>
+                            <a href="{$mainDir}admin/articles" class="menu-item">
+                                <span class="fa fa-file-text-o"></span> Articles
+                            </a>
                         </div>
                     </div>
                     <div class="menu-container right">
@@ -48,16 +51,16 @@
                 </div>
             </div>
             <div class="menu-row2">
-                {if $controller != 'themes' and $method != 'edit'}
+                {if $controller == 'themes' and $method == 'edit'}
+                <div class="layouts-container">
+                    <img src="{$mainDir}resources/layouts/design01.jpg" alt=""/>
+                </div>
+                {else}
                 <ul class="submenu-container">
                     <li>
                         <a href="{$mainDir}admin/help" class="">Help</a>
                     </li>
                 </ul>
-                {else}
-                <div class="layouts-container">
-                    <img src="{$mainDir}resources/layouts/design01.jpg" alt=""/>
-                </div>
                 {/if}
             </div>
         </header>

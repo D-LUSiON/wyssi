@@ -16,10 +16,6 @@ class Application {
         $this->manageRequest();
         
         $this->setController();
-        
-        require $this->controller_file;
-        
-        $this->controller = new $this->controller_name();
 
         if (method_exists($this->controller, $this->method_name)) {
             $this->controller->{$this->method_name}($this->query, $this->errorText);
@@ -40,28 +36,31 @@ class Application {
     }
     
     private function setController(){
-        $_SESSION['admin'] = $this->admin = ($this->url[0] == 'admin');
+        $_SESSION['admin'] = $this->admin = ($this->url[0] == ADMIN_DIR);
         
         $this->controller_name = ucfirst(($this->admin)? (($this->url[1] == '')? 'index' : $this->url[1]) : (($this->url[0] == '')? 'index' : $this->url[0]));
         $this->method_name = ($this->admin)? (($this->url[2] == '')? 'index' : $this->url[2]) : (($this->url[1] == '')? 'index' : $this->url[1]);
-        $this->controller_file = CORE_DIR . 'controllers/' . (($this->admin)? 'admin/' : '') . $this->controller_name . '.php';
         
-        if (file_exists($this->controller_file)) {
-            // if in core modules
-            $this->controller_name = 'Controllers\\' . $this->controller_name;
-        } else {
-            $this->controller_file = MODULES_DIR . '' . 'controllers/' . $this->controller_name . '.php';
-            if (true) {
-                // if in custom modules
-                //TODO: To be written!
-                echo 'Custom module!';
-            } else {
+        $this->controller_file = CORE_DIR . 'controllers/' . (($this->admin)? ADMIN_DIR . '/' : '') . $this->controller_name . '.php';
+        
+        if (!file_exists($this->controller_file)) {
+            
+            $this->controller_file = MODULES_DIR . lcfirst($this->controller_name) . '/' . ($this->admin? ADMIN_DIR . '/' : '' ) . $this->controller_name . '.php';
+            
+            if (!file_exists($this->controller_file)) {
                 // not found
                 $this->errorText = 'Controller "' . $this->controller_name . '" not found!';
-                $this->controller_file = 'core/controllers/' . (($this->admin)? 'admin/' : ''). 'Error.php';
+                $this->controller_file = 'core/controllers/' . (($this->admin)? ADMIN_DIR . '/' : ''). 'Error.php';
                 $this->controller_name = 'Controllers\Error';
             }
         }
+        
+        require $this->controller_file;
+        
+        $this->controller_name = 'Controllers\\' . $this->controller_name;
+        
+        $this->controller = new $this->controller_name;
+        
     }
     
     private function _autoloadPlugins(){
