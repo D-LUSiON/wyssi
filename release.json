@@ -3,5 +3,6 @@
     "author": "D-LUSiON",
     "version": "v0.0.1",
     "build": "alpha",
-    "release_date": "2015-11-02"
+    "release_date": "2015-11-02",
+    "release_status": "not working and probably buggy :("
 }
