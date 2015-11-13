@@ -12,7 +12,8 @@ if ($debug = 1) {
 
 session_start();
 
-require 'core/constants.php';
+require 'core/system_constants.php';
+require 'core/user_constants.php';
 
 require 'core/Application.php';
 require 'core/controllers/BaseController.php';

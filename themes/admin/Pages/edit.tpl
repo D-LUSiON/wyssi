@@ -1,1 +1,3 @@
-edit page {$request|var_dump}
+edit page
+<div>{$request|var_dump}</div>
+<div>{$themeDir}</div>

@@ -12,7 +12,7 @@ class BaseController {
         
         $this->smarty = \SmartyInstance::getInstance()->smarty;
 
-        $this->templateDir = ($_SESSION['admin'] == 'admin')? 'admin' : ($_SESSION['template']? $_SESSION['template'] : $_SESSION['template'] = 'base');
+        $this->templateDir = ($_SESSION['admin'] == 'admin')? 'admin' : ($_SESSION['theme']? $_SESSION['theme'] : $_SESSION['theme'] = 'base');
         
         $this->smarty->assign('siteDir', MAIN_DIR);
         $this->smarty->assign('mainDir', MAIN_DIR);
