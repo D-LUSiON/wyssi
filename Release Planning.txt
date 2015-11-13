@@ -1,0 +1,29 @@
+RELEASE PLANING FOR WYSSI CMS:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+v.1.0.0 - [in progress]
+- core functionality:
+    - Build basic MVC [DONE]
+        - Database class layer for simplifying querying [not started]
+        - integration of SMARTY templating [DONE]
+        - base controller [DONE]
+    - .htaccess - slashes based URI [DONE]
+    - Basic database structure [not started]
+    - Administrative panel as core module [DONE]
+        - Design [DONE]
+        - User login [not started]
+    - Ability to add modules [DONE]
+        - Clean module structure and data to be able to install or uninstall custom module from administrative panel [not started]
+    - Ability to add multiple themes [DONE]
+    
+- Administrative panel functionalities:
+    - Add/remove custom modules [not started]
+    - Ability to edit modules [not started]
+    - WYSIWYG theme editor [not started]
+    - List of basic modules:
+        - Static pages
+        - Articles
+        - File manager
+        - Galleries
+- Public part:
+    - Representation of all modules
