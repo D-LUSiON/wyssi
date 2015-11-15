@@ -43,7 +43,7 @@ section { padding: 20px; }
 
 #MainContent { /* position: absolute; top: 61px; right: 0; bottom: 0; left: 0; z-index: 1; */ }
 #MainContent .masonry-container {}
-#MainContent .masonry-container .masonry-element-container { width: 235px; margin-top: 14px; border-radius: 5px; background-color: #394264; overflow: hidden; }
+#MainContent .masonry-container .masonry-element-container { float: left; width: 235px; margin-top: 14px; border-radius: 5px; background-color: #394264; overflow: hidden; }
 #MainContent .masonry-container .masonry-element-container .element-add { display: block; width: 100%; margin: 0; padding: 50px 0; text-align: center; font-size: 75px; background-color: white; color: #333; }
 #MainContent .masonry-container .masonry-element-container .element-info { padding: 10px; background-color: #50597b; color: #ddd; font-size: 14px; }
 

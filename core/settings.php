@@ -1,6 +1,6 @@
 <?php
-
-if ($debug = 1) {
+$debug = 1;
+if ($debug) {
     error_reporting(E_ERROR);
     ini_set('display_errors', 1);
     ini_set('html_errors', 0);

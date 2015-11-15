@@ -11,12 +11,15 @@ class Application {
     public $modules;
     
     function __construct() {
+        
         $this->_autoloadPlugins();
+        
+        $this->_autoloadModels();
         
         $this->manageRequest();
         
         $this->setController();
-
+        
         if (method_exists($this->controller, $this->method_name)) {
             $this->controller->{$this->method_name}($this->query, $this->errorText);
         } else {
@@ -66,9 +69,36 @@ class Application {
     private function _autoloadPlugins(){
         #echo 'Autoloading plugins...<br/>';
         $mods = scandir(MODULES_DIR);
-        for ($index = 0; $index < count($mods); $index++) {
-            if (!in_array($mods[$index], Array('.', '..'))) {
-                $this->modules[] = $mods[$index];
+        for ($i = 0; $i < count($mods); $i++) {
+            if (!in_array($mods[$i], Array('.', '..'))) {
+                $this->modules[] = $mods[$i];
+            }
+        }
+    }
+    
+    private function _autoloadModels(){
+        // load models for core
+        
+        $core_models_dir = CORE_DIR . 'models';
+        if (file_exists($core_models_dir)) {
+            $core_models = scandir($core_models_dir);
+            for ($i = 0; $i < count($core_models); $i++) {
+                if (!in_array($core_models[$i], Array('.', '..'))) {
+                    require $core_models_dir . '/' . $core_models[$i];
+                }
+            }
+        }
+        
+        // load models for modules
+        for ($i = 0; $i < count($this->modules); $i++) {
+            $models_dir = MODULES_DIR . $this->modules[$i] . '/models';
+            if (file_exists($models_dir)) {
+                $models = scandir($models_dir);
+                for ($i = 0; $i < count($models); $i++) {
+                    if (!in_array($models[$i], Array('.', '..'))) {
+                        require_once $models_dir . '/' . $models[$i];
+                    }
+                }
             }
         }
     }

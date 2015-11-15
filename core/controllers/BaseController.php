@@ -11,8 +11,11 @@ class BaseController {
         $this->xhr = $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
         
         $this->smarty = \SmartyInstance::getInstance()->smarty;
-
-        $this->templateDir = ($_SESSION['admin'] == 'admin')? 'admin' : ($_SESSION['theme']? $_SESSION['theme'] : $_SESSION['theme'] = 'base');
+        
+        $theme_model = new \Models\Theme();
+        $current_theme = $theme_model->getCurrent()[0];
+        
+        $this->templateDir = ($_SESSION['admin'] == 'admin')? 'admin' : (isset($current_theme)? $current_theme->theme_path : 'base');
         
         $this->smarty->assign('siteDir', MAIN_DIR);
         $this->smarty->assign('mainDir', MAIN_DIR);

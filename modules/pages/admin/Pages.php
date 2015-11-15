@@ -1,6 +1,8 @@
 <?php
 namespace Controllers;
 
+use Models\Pages as Model;
+
 class Pages extends BaseController {
 
     function __construct() {
@@ -8,6 +10,9 @@ class Pages extends BaseController {
     }
     
     public function index(){
+        $pages = new Model\Page();
+        $all_pages = $pages->getAll();
+        $this->smarty->assign('pages', $all_pages);
         $this->display('Pages/index.tpl');
     }
     
