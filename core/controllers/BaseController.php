@@ -4,8 +4,12 @@ namespace Controllers;
 class BaseController {
     
     public $templateDir;
-    
+    public $editTemplateDir;
+    public $editTemplateFile;
     public $xhr;
+    public $caller;
+    public $caller_controller;
+    public $caller_method;
 
     function __construct() {
         $this->xhr = $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
@@ -17,6 +21,13 @@ class BaseController {
         
         $this->templateDir = ($_SESSION['admin'] == 'admin')? 'admin' : (isset($current_theme)? $current_theme->theme_path : 'base');
         
+        
+        if ($_SESSION['admin'] == 'admin') {
+            $this->editTemplateDir = MAIN_DIR . 'themes/' . $current_theme->theme_path . '/';
+            $this->smarty->assign('editTemplateDir', $this->editTemplateDir);
+        }
+            
+        
         $this->smarty->assign('siteDir', MAIN_DIR);
         $this->smarty->assign('mainDir', MAIN_DIR);
         $this->smarty->assign('themeDir', MAIN_DIR . 'themes/' . $this->templateDir . '/');
@@ -27,8 +38,15 @@ class BaseController {
         $this->caller = $trace[1];
         
         //$this->smarty->assign('controller', $this->caller['class']);
-        $this->smarty->assign('controller', explode('\\', strtolower(rtrim($this->caller['class'])))[1]);
-        $this->smarty->assign('method', $this->caller['function']);
+        $this->caller_controller = explode('\\', strtolower(rtrim($this->caller['class'])))[1];
+        $this->caller_method = $this->caller['function'];
+        $this->smarty->assign('controller', $this->caller_controller);
+        $this->smarty->assign('method', $this->caller_method);
+        
+        if ($_SESSION['admin'] == 'admin') {
+            $this->editTemplateFile = $this->editTemplateDir . explode('\\', strtolower(rtrim($this->caller['class'])))[1] . '/' . $this->caller['function'] . '.tpl';
+            $this->smarty->assign('editTemplateFile', $this->editTemplateFile);
+        }
         
         $master = $this->templateDir . '/' . (($this->xhr)? 'ajax.tpl' : $master);
         $template = $this->templateDir . '/' . (($template)? $template : explode('\\', get_class($this))[1] . '/index.tpl');

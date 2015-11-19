@@ -20,5 +20,10 @@ class Pages extends BaseController {
         $this->smarty->assign('request', $request);
         $this->display('Pages/edit.tpl');
     }
+    
+    public function getEditPage($request){
+        $this->smarty->assign('template', 'sparrow/Pages/view.tpl');
+        echo $this->smarty->fetch('sparrow/index.tpl');
+    }
 
 }
