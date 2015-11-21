@@ -19,10 +19,10 @@ class BaseController {
         $theme_model = new \Models\Theme();
         $current_theme = $theme_model->getCurrent()[0];
         
-        $this->templateDir = ($_SESSION['admin'] == 'admin')? 'admin' : (isset($current_theme)? $current_theme->theme_path : 'base');
+        $this->templateDir = ($_SESSION['admin_interface'] == ADMIN_DIR)? ADMIN_DIR : (isset($current_theme)? $current_theme->theme_path : 'base');
         
         
-        if ($_SESSION['admin'] == 'admin') {
+        if ($_SESSION['admin_interface'] == ADMIN_DIR) {
             $this->editTemplateDir = MAIN_DIR . 'themes/' . $current_theme->theme_path . '/';
             $this->smarty->assign('editTemplateDir', $this->editTemplateDir);
         }
@@ -35,15 +35,13 @@ class BaseController {
     
     public function display($template = false, $master = 'index.tpl'){
         $trace = debug_backtrace();
-        $this->caller = $trace[1];
-        
         //$this->smarty->assign('controller', $this->caller['class']);
         $this->caller_controller = explode('\\', strtolower(rtrim($this->caller['class'])))[1];
         $this->caller_method = $this->caller['function'];
         $this->smarty->assign('controller', $this->caller_controller);
         $this->smarty->assign('method', $this->caller_method);
         
-        if ($_SESSION['admin'] == 'admin') {
+        if ($_SESSION['admin_interface'] == ADMIN_DIR) {
             $this->editTemplateFile = $this->editTemplateDir . explode('\\', strtolower(rtrim($this->caller['class'])))[1] . '/' . $this->caller['function'] . '.tpl';
             $this->smarty->assign('editTemplateFile', $this->editTemplateFile);
         }

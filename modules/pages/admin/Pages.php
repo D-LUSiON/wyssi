@@ -17,6 +17,9 @@ class Pages extends BaseController {
     }
     
     public function edit($request){
+        $pages = new Model\Page();
+        $page = $pages->getByID($request['id']);
+        $this->smarty->assign('page', $page);
         $this->smarty->assign('request', $request);
         $this->display('Pages/edit.tpl');
     }

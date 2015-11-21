@@ -13,6 +13,7 @@
         <script type="text/javascript" src="js/jquery.js"></script>
         <script type="text/javascript" src="js/jquery-ui.js"></script>
         <script type="text/javascript" src="js/jquery.modalWindow.js"></script>
+        <script type="text/javascript" src="js/layout.js"></script>
         <script type="text/javascript" src="js/common-scripts.js"></script>
         {/block}
     </head>
@@ -46,7 +47,7 @@
                                 </div>
                                 <span class="user-name">John Doe</span>
                             </a>
-                            <a href="{$mainDir}admin/logout" class="menu-item border top">Log out</a>
+                            <a href="{$mainDir}admin/user/logout" class="menu-item border top">Log out</a>
                         </div>
                     </div>
                     <div class="logo-container">
