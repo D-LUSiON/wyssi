@@ -14,7 +14,11 @@ class Theme extends Database {
     }
     
     public function getCurrent(){
-        return $this->getCustom(null, null, 'current=1');
+        return $this->getCustom(null, null, 'theme_type="public" AND current=1');
+    }
+    
+    public function getCurrentAdmin(){
+        return $this->getCustom(null, null, 'theme_type="admin" AND current=1');
     }
 
 }

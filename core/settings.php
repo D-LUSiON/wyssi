@@ -26,3 +26,5 @@ $smarty = \SmartyInstance::getInstance()->smarty;
 $smarty->setTemplateDir('./themes')
                ->setCompileDir('./smarty_compile')
                ->setCacheDir('./smarty_cache');
+
+require 'core/libraries/smarty/SmartyCustomFunctions.php';

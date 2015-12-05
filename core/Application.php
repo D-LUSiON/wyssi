@@ -100,9 +100,9 @@ class Application {
             $models_dir = MODULES_DIR . $this->modules[$i] . '/models';
             if (file_exists($models_dir)) {
                 $models = scandir($models_dir);
-                for ($i = 0; $i < count($models); $i++) {
-                    if (!in_array($models[$i], Array('.', '..'))) {
-                        require_once $models_dir . '/' . $models[$i];
+                for ($j = 0; $j < count($models); $j++) {
+                    if (!in_array($models[$j], Array('.', '..'))) {
+                        require_once $models_dir . '/' . $models[$j];
                     }
                 }
             }

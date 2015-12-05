@@ -1,9 +1,9 @@
 <?php
-namespace Models\Pages;
+namespace Models\Articles;
 
 use Models;
 
-class Page extends Models\Database {
+class Article extends Models\Database {
     
     public $id;
     public $title;
@@ -16,7 +16,7 @@ class Page extends Models\Database {
     public $required_fields = Array('title', 'description', 'content');
     
     function __construct() {
-        $this->table = 'pages';
+        $this->table = 'articles';
         parent::__construct();
     }
 

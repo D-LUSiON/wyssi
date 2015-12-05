@@ -18,19 +18,21 @@ class BaseController {
         
         $theme_model = new \Models\Theme();
         $current_theme = $theme_model->getCurrent()[0];
+        $theme_model = new \Models\Theme();
+        $current_admin_theme = $theme_model->getCurrentAdmin()[0];
         
-        $this->templateDir = ($_SESSION['admin_interface'] == ADMIN_DIR)? ADMIN_DIR : (isset($current_theme)? $current_theme->theme_path : 'base');
+        $this->templateDir = ($_SESSION['admin_interface'] == ADMIN_DIR)? $current_admin_theme->theme_path : (isset($current_theme)? $current_theme->theme_path : 'base');
         
         
         if ($_SESSION['admin_interface'] == ADMIN_DIR) {
-            $this->editTemplateDir = MAIN_DIR . 'themes/' . $current_theme->theme_path . '/';
+            $this->editTemplateDir = MAIN_DIR . THEMES_DIR . $current_theme->theme_path . '/';
             $this->smarty->assign('editTemplateDir', $this->editTemplateDir);
         }
             
         
         $this->smarty->assign('siteDir', MAIN_DIR);
         $this->smarty->assign('mainDir', MAIN_DIR);
-        $this->smarty->assign('themeDir', MAIN_DIR . 'themes/' . $this->templateDir . '/');
+        $this->smarty->assign('themeDir', MAIN_DIR . THEMES_DIR . $this->templateDir . '/');
     }
     
     public function display($template = false, $master = 'index.tpl'){

@@ -33,10 +33,15 @@ class Database {
     function getByID($id = null) {
         $this->getCaller();
         if (isset($id)) {
-            $q = 'SELECT * FROM ' . $this->caller['object']->table . ' WHERE id=' . $id;
+            $q = 'SELECT * FROM '.$this->caller['object']->table.' WHERE id=' . $id;
             $query = $this->db->prepare($q);
             $query->execute();
-            return $query->fetchAll(\PDO::FETCH_CLASS, $this->caller_class);
+            if ($query->errorCode() != '00000')
+                var_dump($query->errorInfo());
+            
+            $res =  $query->fetchAll(\PDO::FETCH_CLASS, $this->caller_class)[0];
+            
+            return $res;
         } else {
             return Array('error' => 'Please, provide ID!');
         }
@@ -55,6 +60,56 @@ class Database {
         $query->execute();
         
         return  $query->fetchAll(\PDO::FETCH_CLASS, $this->caller_class);
+    }
+    
+    public function setFields($fields){
+        foreach ($this as $key => $value) {
+            if ($fields[$key])
+                $this->{$key} = $fields[$key];
+        }
+    }
+    
+    public function save(){
+        $this->getCaller();
+        $fields = Array();
+        foreach ($this->required_fields as $key)
+            $fields[] = $key;
+            
+        $values = Array();
+            foreach ($this->required_fields as $key)
+            $values[] = "'" . $this->{$key} ."'";
+            
+        if ($this->id) {
+            $vals = Array();
+            foreach ($this->required_fields as $key) {
+                $vals[] = $key. "='" . $this->{$key} . "'";
+            }
+            $q = 'UPDATE '.$this->table.' SET '.implode(', ', $vals).' WHERE id='.$this->id;
+            $query = $this->db->prepare($q);
+        } else {
+            $q = 'INSERT into '.$this->table.' ('.implode(', ', $fields).') VALUES ('.implode(', ', $values).')';
+            $query = $this->db->prepare($q);
+        }
+        
+        $query->execute();
+        
+        if ($query->errorCode() != '00000') {
+            echo $q . "\n";
+            echo (($this->id)? 'UPDATE' : 'INSERT') . "\n";
+            var_dump($query->errorInfo());
+        }
+        
+        return $this->db->lastInsertId();
+    }
+    
+    public function delete(){
+        $this->getCaller();
+        $q = 'DELETE from '.$this->table.' WHERE id='.$this->id;
+        $query = $this->db->prepare($q);
+        $query->execute();
+        
+        if ($query->errorCode() != '00000')
+            var_dump($query->errorInfo());
     }
 
 }
