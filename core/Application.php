@@ -12,13 +12,13 @@ class Application {
     
     function __construct() {
         
-        $this->_autoloadPlugins();
+        $this->manageRequest();
         
         $this->_autoloadModels();
         
-        $this->manageRequest();
-        
         $this->setController();
+        
+        $this->_autoloadPlugins();
         
         if (method_exists($this->controller, $this->method_name)) {
             $this->controller->{$this->method_name}($this->request, $this->errorText);
@@ -39,6 +39,12 @@ class Application {
     }
     
     private function setController(){
+        if (DB_HOST == '' && !($this->url[0] == ADMIN_DIR && $this->url[1] == 'install')) {
+            header('Location: ' . MAIN_DIR . ADMIN_DIR . '/install');
+        } else if (DB_HOST != '' && $this->url[0] == ADMIN_DIR && $this->url[1] == 'install') {
+            header('Location: ' . MAIN_DIR);
+        }
+        
         $_SESSION['admin_interface'] = $this->admin_interface = ($this->url[0] == ADMIN_DIR);
         
         $this->controller_name = ucfirst(

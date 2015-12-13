@@ -18,13 +18,13 @@ class User extends BaseController {
             $user = $user_model->logUser($request);
             if ($user) {
                 $_SESSION['user'] = Array();
-                foreach ($user as $key => $value) {
+                foreach ($user as $key => $value)
                     $_SESSION['user'][$key] = $value;
-                }
-                header('Location: ' . MAIN_DIR . (($user->admin == 1)? 'admin/' : '/'));
+                
             }
+            header('Location: ' . MAIN_DIR . (($user->admin == 1)? 'admin/' : '/'));
         } else {
-            header('Location: ' . MAIN_DIR . (($_SESSION['admin_interface'])? 'admin/' : '/'));
+            header('Location: ' . MAIN_DIR . (($_SESSION['admin_interface'])? 'admin/user/login' : '/'));
         }
     }
     

@@ -9,12 +9,12 @@
         <link rel="stylesheet" type="text/css" href="css/design.css" media="all"/>
         {/block}
         {block "scripts"}
-        <script type="text/javascript" src="js/js.missing_functions.js"></script>
-        <script type="text/javascript" src="js/jquery.js"></script>
-        <script type="text/javascript" src="js/jquery-ui.js"></script>
-        <script type="text/javascript" src="js/jquery.modalWindow.js"></script>
-        <script type="text/javascript" src="js/layout.js"></script>
-        <script type="text/javascript" src="js/common-scripts.js"></script>
+        <script type="text/javascript" src="{get_path asset='js/js.missing_functions.js'}"></script>
+        <script type="text/javascript" src="{get_path asset='js/jquery.js'}"></script>
+        <script type="text/javascript" src="{get_path asset='js/jquery-ui.js'}"></script>
+        <script type="text/javascript" src="{get_path asset='js/jquery.modalWindow.js'}"></script>
+        <script type="text/javascript" src="{get_path asset='js/layout.js'}"></script>
+        <script type="text/javascript" src="{get_path asset='js/common-scripts.js'}"></script>
         {/block}
     </head>
     <body data-main_dir="{$mainDir}">

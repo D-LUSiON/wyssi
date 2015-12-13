@@ -128,7 +128,7 @@
    #nav-wrap > a:after { top: 60%; }
 
    /* toggle buttons */
-	#nav-wrap:not( :target ) > a:first-of-type,
+	#nav-wrap:not(:target) > a:first-of-type,
 	#nav-wrap:target > a:last-of-type  {
 	   display: block;
 	}

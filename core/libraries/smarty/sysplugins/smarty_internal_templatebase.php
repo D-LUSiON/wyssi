@@ -334,9 +334,13 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data {
                         header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $_template->cached->timestamp) . ' GMT');
                         break;
                     }
+                    if ($this->compress_output)
+                        $_output = preg_replace($this->compress_regexp, '', $_output);
                     echo $_output;
                 }
             } else {
+                if ($this->compress_output)
+                    $_output = preg_replace($this->compress_regexp, '', $_output);
                 echo $_output;
             }
             // debug output

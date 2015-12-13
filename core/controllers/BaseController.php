@@ -14,8 +14,6 @@ class BaseController {
     function __construct() {
         $this->xhr = $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
         
-        $this->smarty = \SmartyInstance::getInstance()->smarty;
-        
         $theme_model = new \Models\Theme();
         $current_theme = $theme_model->getCurrent()[0];
         $theme_model = new \Models\Theme();
@@ -24,6 +22,8 @@ class BaseController {
         $this->templateDir = ($_SESSION['admin_interface'] == ADMIN_DIR)? $current_admin_theme->theme_path : (isset($current_theme)? $current_theme->theme_path : 'base');
         
         
+        $this->smarty = \SmartyInstance::getInstance()->smarty;
+        $this->smarty->current_theme = $this->templateDir;
         if ($_SESSION['admin_interface'] == ADMIN_DIR) {
             $this->editTemplateDir = MAIN_DIR . THEMES_DIR . $current_theme->theme_path . '/';
             $this->smarty->assign('editTemplateDir', $this->editTemplateDir);

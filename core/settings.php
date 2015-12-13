@@ -15,6 +15,8 @@ session_start();
 require 'core/system_constants.php';
 require 'core/user_constants.php';
 
+$_SESSION['theme'] = isset($_REQUEST['theme'])? $_REQUEST['theme'] : $_SESSION['theme'];
+
 require 'core/Application.php';
 require 'core/controllers/BaseController.php';
 
@@ -22,7 +24,7 @@ require_once 'core/libraries/smarty/SmartyBC.class.php';
 require_once 'core/libraries/smarty/SmartyInstance.class.php';
 
 $smarty = \SmartyInstance::getInstance()->smarty;
-
+$smarty->compress_output = false;
 $smarty->setTemplateDir('./themes')
                ->setCompileDir('./smarty_compile')
                ->setCacheDir('./smarty_cache');
