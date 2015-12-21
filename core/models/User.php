@@ -12,6 +12,8 @@ class User extends Database {
     public $date_updated;
     public $last_entered;
     public $admin;
+    public $avatar;
+    public $required_fields = Array('username', 'password', 'first_name', 'last_name', 'admin', 'avatar');
     
     function __construct() {
         $this->table = 'users';
@@ -20,6 +22,12 @@ class User extends Database {
     
     public function logUser($request){
         return $this->getCustom(NULL, NULL, 'username="' . $request['username'] . '" AND password="' . $request['password'] . '"')[0];
+    }
+    
+    public function updateLastLogin(){
+        $this->update(Array(
+            'last_entered' => CURRENT_TIMESTAMP
+        ));
     }
 
 }

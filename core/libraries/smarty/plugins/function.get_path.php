@@ -9,7 +9,7 @@
  * -------------------------------------------------------------
  */
 function smarty_function_get_path($params, &$smarty){
-    if (!isset($params['asset']) and !isset($params['file'])) {
+    if (!isset($params['asset']) and !isset($params['file']) and !isset($params['url'])) {
         $smarty->trigger_error('Please, provide asset or path!');
         return;
     }
@@ -32,18 +32,13 @@ function smarty_function_get_path($params, &$smarty){
         return MAIN_DIR . preg_replace('/[^\da-z]/i', '', $smarty->getTemplateDir()[0]) . '/' . $smarty->current_theme . '/' . $params['asset'];
     }
     if (isset($params['file'])) {
-        return MAIN_DIR . RESOURCES_DIR . $params['file'];
+        return MAIN_DIR . UPLOADS_DIR . $params['file'];
     }
-    
-    
-    if (gettype($params['asset']) == 'array') {
-        $assets = Array();
-        foreach ($params['asset'] as $asset) {
-            $assets[] = MAIN_DIR . $smarty->current_theme . '/' . $asset;
+    if (isset($params['url'])) {
+        if ($params['url'] == '' or $params['url'] == '/' or $params['url'] == 'mainDir') {
+            return MAIN_DIR;
         }
-        return $assets;
-    } else {
-        return MAIN_DIR . $smarty->current_theme . '/' . $params['asset'];
+        return MAIN_DIR . $params['url'];
     }
     
 }

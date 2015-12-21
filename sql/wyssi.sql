@@ -50,13 +50,13 @@ CREATE TABLE IF NOT EXISTS `pages` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table wyssi.pages: ~3 rows (approximately)
+-- Dumping data for table wyssi.pages: ~4 rows (approximately)
 DELETE FROM `pages`;
 /*!40000 ALTER TABLE `pages` DISABLE KEYS */;
 INSERT INTO `pages` (`id`, `title`, `description`, `content`, `creation_date`, `update_date`, `main_image`) VALUES
 	(1, 'Page 1', 'desc of Page 1', 'Page 1: lorem ipsum dolor sit amet consectetur adisplicit elit.', '2015-11-15 18:14:21', '2015-11-15 18:14:22', ''),
 	(2, 'Page 2', 'desc of Page 2', 'Page 2 content: blabla alabala some page 2 content', '2015-11-15 18:44:50', '2015-11-15 19:25:16', 'uploads/user_content/153063.jpg'),
-	(28, '1234', '1234', '1234', '2015-12-05 17:17:18', '2015-12-05 17:34:53', NULL),
+	(28, '1234fgfdg', '1234', '1234', '2015-12-05 17:17:18', '2015-12-20 17:41:15', NULL),
 	(29, 'asdaqwr', 'qwefasf', 'wqfsafc', '2015-12-05 17:19:05', '2015-12-05 17:19:05', NULL);
 /*!40000 ALTER TABLE `pages` ENABLE KEYS */;
 
@@ -85,17 +85,22 @@ CREATE TABLE IF NOT EXISTS `themes` (
   `theme_path` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `theme_type` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'public',
   `current` int(1) NOT NULL DEFAULT '0',
+  `preview_image` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table wyssi.themes: ~4 rows (approximately)
+-- Dumping data for table wyssi.themes: ~8 rows (approximately)
 DELETE FROM `themes`;
 /*!40000 ALTER TABLE `themes` DISABLE KEYS */;
-INSERT INTO `themes` (`id`, `theme_name`, `theme_path`, `theme_type`, `current`) VALUES
-	(1, 'Sparrow', 'sparrow', 'public', 1),
-	(2, 'Woo', 'woo', 'public', 0),
-	(3, 'Admin - WYSSI', 'admin', 'admin', 0),
-	(4, 'Admin - Classic', 'admin_classic', 'admin', 1);
+INSERT INTO `themes` (`id`, `theme_name`, `theme_path`, `theme_type`, `current`, `preview_image`) VALUES
+	(1, 'Admin WYSSI', 'admin', 'admin', 0, ''),
+	(2, 'Admin Classic', 'admin_classic', 'admin', 1, ''),
+	(3, 'Base template', 'base', 'public', 0, ''),
+	(4, 'CeeVee', 'ceevee', 'public', 0, ''),
+	(5, 'Kreo', 'kreo', 'public', 0, ''),
+	(6, 'Sparrow', 'sparrow', 'public', 0, ''),
+	(7, 'Woo', 'woo', 'public', 1, ''),
+	(8, 'Easy Admin Panel', 'easy_admin_panel', 'admin', 0, '');
 /*!40000 ALTER TABLE `themes` ENABLE KEYS */;
 
 
@@ -111,14 +116,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   `date_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `last_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `admin` tinyint(4) NOT NULL DEFAULT '0',
+  `avatar` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Dumping data for table wyssi.users: ~1 rows (approximately)
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`id`, `username`, `password`, `first_name`, `last_name`, `date_created`, `date_updated`, `last_entered`, `admin`) VALUES
-	(1, 'admin', '1qaz', 'John', 'Dow', '2015-09-05 12:03:58', '2015-11-21 18:06:49', '2015-11-21 18:06:45', 1);
+INSERT INTO `users` (`id`, `username`, `password`, `first_name`, `last_name`, `date_created`, `date_updated`, `last_entered`, `admin`, `avatar`) VALUES
+	(1, 'admin', '1qaz', 'John', 'Dow', '2015-09-05 12:03:58', '2015-12-20 19:33:39', '2015-12-20 19:33:39', 1, 'dedsec_logo_jpg.jpg');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

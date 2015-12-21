@@ -16,7 +16,6 @@ class BaseController {
         
         $theme_model = new \Models\Theme();
         $current_theme = $theme_model->getCurrent()[0];
-        $theme_model = new \Models\Theme();
         $current_admin_theme = $theme_model->getCurrentAdmin()[0];
         
         $this->templateDir = ($_SESSION['admin_interface'] == ADMIN_DIR)? $current_admin_theme->theme_path : (isset($current_theme)? $current_theme->theme_path : 'base');
@@ -51,6 +50,7 @@ class BaseController {
         $master = $this->templateDir . '/' . (($this->xhr)? 'ajax.tpl' : $master);
         $template = $this->templateDir . '/' . (($template)? $template : explode('\\', get_class($this))[1] . '/index.tpl');
         
+        $this->smarty->assign('user', $_SESSION['user']);
         $this->smarty->assign('template', $template);
         
         $this->smarty->display($master);

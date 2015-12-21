@@ -14,11 +14,11 @@ class Application {
         
         $this->manageRequest();
         
+        $this->_autoloadPlugins();
+        
         $this->_autoloadModels();
         
         $this->setController();
-        
-        $this->_autoloadPlugins();
         
         if (method_exists($this->controller, $this->method_name)) {
             $this->controller->{$this->method_name}($this->request, $this->errorText);
@@ -34,7 +34,7 @@ class Application {
             if ($key != 'url')
                 $query[$key] = $_REQUEST[$key];
         }
-        
+        $this->request['_server'] = $_SERVER;
         $this->request = $query;
     }
     

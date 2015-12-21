@@ -14,8 +14,8 @@
             <img src="{if !isset($article->main_image) or $article->main_image == ''}img/no_photo.png{else}{$mainDir}{$article->main_image}{/if}" alt=""/>
         </a>
         <div class="element-info">
-            <a href="{$mainDir}admin/articles/delete?id={$article->id}" style="float: right">[X]</a>
-            <a href="{$mainDir}admin/articles/edit?id={$article->id}">{$article->title}</a>
+            <a href="{get_path url="admin/articles/delete?id=$article->id"}" style="float: right">[X]</a>
+            <a href="{get_path url="admin/articles/edit?id=$article->id"}">{$article->title}</a>
         </div>
     </div>    
     {/foreach}

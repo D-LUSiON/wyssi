@@ -11,7 +11,7 @@ class Pages extends BaseController {
     
     public function index(){
         $pages = new Model\Page();
-        $all_pages = $pages->getAll();
+        $all_pages = $pages->getAll('creation_date', 'DESC');
         $this->smarty->assign('pages', $all_pages);
         $this->display('Pages/index.tpl');
     }

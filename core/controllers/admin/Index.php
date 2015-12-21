@@ -7,7 +7,7 @@ class Index extends BaseController {
         parent::__construct();
         
         if (!isset($_SESSION['user'])) {
-            header('Location: ' . MAIN_DIR . 'admin/user/login');
+            header('Location: ' . MAIN_DIR . ADMIN_DIR .'/user/login');
         }
     }
     
@@ -16,7 +16,7 @@ class Index extends BaseController {
     }
     
     public function logout(){
-        header('Location: ' . MAIN_DIR . 'admin/user/logout');
+        header('Location: ' . MAIN_DIR . ADMIN_DIR .'/user/logout');
     }
 
 }
