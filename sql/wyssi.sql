@@ -11,13 +11,11 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 -- Dumping database structure for wyssi
-DROP DATABASE IF EXISTS `wyssi`;
 CREATE DATABASE IF NOT EXISTS `wyssi` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
 USE `wyssi`;
 
 
 -- Dumping structure for table wyssi.articles
-DROP TABLE IF EXISTS `articles`;
 CREATE TABLE IF NOT EXISTS `articles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -29,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `articles` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table wyssi.articles: ~0 rows (approximately)
+-- Dumping data for table wyssi.articles: ~1 rows (approximately)
 DELETE FROM `articles`;
 /*!40000 ALTER TABLE `articles` DISABLE KEYS */;
 INSERT INTO `articles` (`id`, `title`, `description`, `content`, `creation_date`, `update_date`, `main_image`) VALUES
@@ -38,7 +36,6 @@ INSERT INTO `articles` (`id`, `title`, `description`, `content`, `creation_date`
 
 
 -- Dumping structure for table wyssi.pages
-DROP TABLE IF EXISTS `pages`;
 CREATE TABLE IF NOT EXISTS `pages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -62,7 +59,6 @@ INSERT INTO `pages` (`id`, `title`, `description`, `content`, `creation_date`, `
 
 
 -- Dumping structure for table wyssi.settings
-DROP TABLE IF EXISTS `settings`;
 CREATE TABLE IF NOT EXISTS `settings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `current_admin_theme` int(11) NOT NULL,
@@ -78,7 +74,6 @@ DELETE FROM `settings`;
 
 
 -- Dumping structure for table wyssi.themes
-DROP TABLE IF EXISTS `themes`;
 CREATE TABLE IF NOT EXISTS `themes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `theme_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -105,7 +100,6 @@ INSERT INTO `themes` (`id`, `theme_name`, `theme_path`, `theme_type`, `current`,
 
 
 -- Dumping structure for table wyssi.users
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -124,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `username`, `password`, `first_name`, `last_name`, `date_created`, `date_updated`, `last_entered`, `admin`, `avatar`) VALUES
-	(1, 'admin', '1qaz', 'John', 'Dow', '2015-09-05 12:03:58', '2015-12-20 19:33:39', '2015-12-20 19:33:39', 1, 'dedsec_logo_jpg.jpg');
+	(1, 'admin', '1qaz', 'Dedsec', 'member', '2015-09-05 12:03:58', '2015-12-20 19:54:46', '2015-12-20 19:54:46', 1, 'dedsec_logo_jpg.jpg');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
