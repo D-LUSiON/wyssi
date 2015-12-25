@@ -15,7 +15,7 @@ class Database {
     }
     
     private function connect(){
-        $this->db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_TABLE, DB_USER, DB_PASS, array(
+        $this->db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS, array(
             PDO::ATTR_PERSISTENT => true
         ));
         $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, 1);

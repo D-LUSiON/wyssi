@@ -1,0 +1,15 @@
+{
+    "website": {
+        "name": "WYSSI site",
+        "address": "localhost",
+        "description": "just another WYSSI website",
+        "category": ["portfolio", "gallery"],
+        "tags": ["wyssi", "portfolio"]
+    },
+    "owner": {
+        "name": "D-LUSiON",
+        "country": "Bulgaria",
+        "city": "Sofia",
+        "email": "l.peikov@gmail.com"
+    }
+}

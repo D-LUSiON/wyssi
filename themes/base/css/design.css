@@ -1,0 +1,46 @@
+*,
+*:before,
+*:after { margin: 0; padding: 0; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; }
+
+body { background-color: #f5f5f5; font-family: arial, tahoma, sans-serif; font-size: 13px; color: #333; }
+
+a { color: inherit; text-decoration: none; }
+img { display: block; width: 100%; }
+.wrapper { margin: 0 auto; width: 1000px; }
+.clearfix:after { display: block; clear: both; content: ''; }
+.left { float: left; }
+.right { float: right; }
+
+label { display: block; color: #333; font-size: 16px; }
+input[type=text],
+input[type=password],
+input[type=email],
+textarea,
+select { display: block; width: 100%; margin-bottom: 10px; padding: 5px; border: 1px solid #ccc; color: #626262; }
+textarea { min-height: 250px; resize: none; }
+
+input:-webkit-autofill { -webkit-box-shadow: 0 0 0px 1000px white inset; -webkit-text-fill-color: #888 !important; }
+
+button,
+.button,
+[type=button],
+[type=submit],
+[type=reset] { display: inline-block; border: none; padding: 8px 15px; background-color: #888; color: #fff; font-size: 13px; cursor: pointer; }
+
+.form_row-container {}
+.form_row-container .icon_input-container {}
+.form_row-container .icon_input-container:after { display: block; clear: both; content: ''; }
+.form_row-container .icon_input-container .fa { float: left; width: 25px; padding: 5px 0px; color: #888; font-size: 14px; }
+.form_row-container .icon_input-container input,
+.form_row-container .icon_input-container select,
+.form_row-container .icon_input-container textarea { width: calc(100% - 25px); }
+
+.buttons-container,
+.buttons-container.right { float: none; text-align: right; }
+.buttons-container.center { text-align: center; }
+.buttons-container.left { float: none; text-align: left; }
+
+body > .loader { position: fixed; top: 0; left: 0; z-index: 1000000; width: 100%; height: 100%; background-color: #f5f5f5; background-image: url(img/ajax_loader1.gif); background-position: center; background-repeat: no-repeat; }
+
+.form-container { width: 300px; margin: 0 auto; margin-top: 50px; border: 1px solid #ececec; padding: 35px 32px; background-color: #f9f9f9; }
+.form-container > .logo-container { display: inline-block; margin-bottom: 25px; text-align: center; }

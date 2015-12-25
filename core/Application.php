@@ -11,7 +11,8 @@ class Application {
     public $modules;
     
     function __construct() {
-        
+        //TODO: URI parser class - it could be used in Installer
+        //TODO: Models autoloader class
         $this->manageRequest();
         
         $this->_autoloadPlugins();
@@ -39,12 +40,15 @@ class Application {
     }
     
     private function setController(){
+        
+        // TODO: Move to index.php
         if (DB_HOST == '' && !($this->url[0] == ADMIN_DIR && $this->url[1] == 'install')) {
             header('Location: ' . MAIN_DIR . ADMIN_DIR . '/install');
         } else if (DB_HOST != '' && $this->url[0] == ADMIN_DIR && $this->url[1] == 'install') {
             header('Location: ' . MAIN_DIR);
         }
         
+        //TODO: Find a way to distinct interface (free name) from controller
         $_SESSION['admin_interface'] = $this->admin_interface = ($this->url[0] == ADMIN_DIR);
         
         $this->controller_name = ucfirst(
