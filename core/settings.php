@@ -13,7 +13,10 @@ if ($debug) {
 session_start();
 
 require 'core/system_constants.php';
-require 'core/user_constants.php';
+if (file_exists(CORE_DIR . '/user_constants.php')) {
+    require CORE_DIR . '/user_constants.php';
+}
+
 
 $_SESSION['theme'] = isset($_REQUEST['theme'])? $_REQUEST['theme'] : $_SESSION['theme'];
 

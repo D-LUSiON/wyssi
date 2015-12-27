@@ -1,6 +1,6 @@
 <?php
 define('MAIN_DIR', $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']));
-define('CORE_DIR', 'core/');
+define('CORE_DIR', 'core' . DIRECTORY_SEPARATOR);
 define('MODULES_DIR', 'modules' . DIRECTORY_SEPARATOR);
 define('RESOURCES_DIR', 'resources' . DIRECTORY_SEPARATOR);
 define('DB_DUMP_DIR', 'sql' . DIRECTORY_SEPARATOR);

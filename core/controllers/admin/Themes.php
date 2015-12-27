@@ -83,7 +83,7 @@ class Themes extends BaseController {
             $theme_model = new \Models\Theme();
             $theme = $theme_model->getByID($request['id']);
             $theme->setCurrentTheme();
-            //var_dump($theme_model->getCustom(NULL, $theme->table, 'theme_type="'.$theme->theme_type.'" AND current=1'));
+            
             header('Location: ' . MAIN_DIR . ADMIN_DIR .'/themes');
         } else {
             $this->json_response(Array('error' => true, 'message' => 'Plese, provide theme ID!'));
