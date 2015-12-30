@@ -72,7 +72,7 @@ class Database {
         $query = $this->db->prepare($q);
         $query->execute();
         
-        return  $query->fetchAll(\PDO::FETCH_CLASS, $this->caller_class);
+        return $query->fetchAll(\PDO::FETCH_CLASS, $this->caller_class);
     }
     
     public function setFields($fields){

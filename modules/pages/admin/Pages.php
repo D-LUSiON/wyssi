@@ -17,6 +17,7 @@ class Pages extends BaseController {
     }
     
     public function edit($request){
+        
         $pages = new Model\Page();
         $page = $pages->getByID($request['id']);
         $this->smarty->assign('page', $page);
@@ -31,6 +32,7 @@ class Pages extends BaseController {
         else
             $page = $page_model;
         
+        $request['author'] = $_SESSION['user']->id;
         $page->setFields($request);
         
         $id = $page->save();

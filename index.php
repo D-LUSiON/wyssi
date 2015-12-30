@@ -7,6 +7,7 @@ require 'core/settings.php';
 $site_settings = file_get_contents('site_settings.json');
 
 if ($site_settings == '') {
+    unset($_SESSION['user']);
     require 'core/Installer.php';
     $app = new Installer();
 } else

@@ -11,30 +11,27 @@ class Installer {
          * 3. check if database exist if yes - drop it and enter definitions
          * 4. register admin account
          * 5. choose templates for public and admin
-         * 6. choose plugins to be activated
-         * 7. collect website data - site name, owner, contact info and other optional data
-         * 8. where do you want to go - public or admin
+         * 6. collect website data - site name, owner, contact info and other optional data
+         * 7. go to admin
          */
         $request = $_REQUEST;
-        
+
         $this->smarty = \SmartyInstance::getInstance()->smarty;
         $this->smarty->current_theme = 'base';
 
         $step = isset($request['step']) ? 'step_' . $request['step'] : 'step_begin';
         $next_step = isset($request['next_step']) ? 'step_' . $request['next_step'] : 'step_begin';
-        
+
         switch ($step) {
             case 'step_begin':
                 $this->{$next_step}();
                 break;
             case 'step_db_data':
                 $db_data = $_REQUEST;
-                if (!isset($db_data['db_host']) or $db_data['db_host'] == '') {
+                if (!isset($db_data['db_host']) or $db_data['db_host'] == '')
                     $db_data['db_host'] = 'localhost';
-                }
-                if (!isset($db_data['db_name']) or $db_data['db_name'] == '') {
+                if (!isset($db_data['db_name']) or $db_data['db_name'] == '')
                     $db_data['db_name'] = 'wyssi';
-                }
                 $this->saveDbConnectionData($db_data);
                 break;
             case 'step_reg_admin':
@@ -50,8 +47,7 @@ class Installer {
                 echo json_encode(Array('redirect_url' => MAIN_DIR . ADMIN_DIR));
                 break;
 
-            default:
-                break;
+            default: break;
         }
     }
 
@@ -129,27 +125,30 @@ class Installer {
 
     public function registerAdmin($request) {
         $this->connectToDB();
-        
+
         try {
             $q = 'INSERT INTO users (username, password, first_name, last_name, role, avatar) VALUES ("' . $request['username'] . '", "' . $request['password'] . '", "' . $request['first_name'] . '", "' . $request['last_name'] . '", "admin", "")';
             $stmnt = $this->db_conn->prepare($q);
             $stmnt->execute();
+        } catch (PDOException $ex) {
+            var_dump($ex->getMessage());
+        }
+
+        try {
+            $q = 'SELECT * FROM users WHERE id=' . $this->db_conn->lastInsertId();
+            $stmnt = $this->db_conn->prepare($q);
+            $stmnt->execute();
             
-            $_SESSION['user'] = Array();
-            unset($request['step']);
-            unset($request['next_step']);
-            foreach ($request as $key => $value)
-                $_SESSION['user'][$key] = $value;
-            
+            $_SESSION['user'] = $stmnt->fetchAll(PDO::FETCH_OBJ);
         } catch (PDOException $ex) {
             var_dump($ex->getMessage());
         }
     }
 
     public function step_choose_themes() {
-        
+
         $themes = $this->_scanForThemes();
-        
+
         $this->smarty->assign('themes', $themes);
         if ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
             $this->smarty->display($this->smarty->current_theme . '/Installer/choose_themes.tpl');
@@ -158,7 +157,7 @@ class Installer {
             $this->smarty->display($this->smarty->current_theme . '/index.tpl');
         }
     }
-    
+
     private function _scanForThemes($dir = THEMES_DIR) {
         $results = Array();
         $files = scandir($dir);
@@ -168,24 +167,20 @@ class Installer {
                 if (is_dir($path) and file_exists($path . DIRECTORY_SEPARATOR . 'settings.json')) {
                     $results[] = $path . DIRECTORY_SEPARATOR . 'settings.json';
                 }
-                // if you want to search recursively:
-                // else {
-                //    $this->_scanForThemes($path, $results);
-                //}
             }
         }
         $themes = Array();
         foreach ($results as $theme) {
             $t_s = json_decode(file_get_contents($theme));
             $ta = explode(DIRECTORY_SEPARATOR, $theme);
-            $t_s->theme_path = $ta[count($ta)-2];
+            $t_s->theme_path = $ta[count($ta) - 2];
             $themes[] = $t_s;
         }
-        
+
         return $this->_insertThemes($themes);
     }
-    
-    private function _insertThemes($themes){
+
+    private function _insertThemes($themes) {
         $values = '';
         foreach ($themes as $theme) {
             $values .= '(';
@@ -193,9 +188,9 @@ class Installer {
             $values .= '),';
         }
         $values = rtrim($values, ",");
-        
+
         $this->connectToDB();
-        
+
         try {
             $q = 'INSERT INTO themes (theme_name, theme_type, theme_path) VALUES ' . $values;
             $stmnt = $this->db_conn->prepare($q);
@@ -203,11 +198,11 @@ class Installer {
         } catch (PDOException $ex) {
             var_dump($ex->getMessage());
         }
-        
+
         return $this->_getInsertedThemes();
     }
-    
-    private function _getInsertedThemes(){
+
+    private function _getInsertedThemes() {
         try {
             $q = 'SELECT * FROM themes';
             $stmnt = $this->db_conn->prepare($q);
@@ -216,21 +211,21 @@ class Installer {
             var_dump($ex->getMessage());
         }
         $all_themes = $stmnt->fetchAll(PDO::FETCH_OBJ);
-        
+
         return $all_themes;
     }
-    
-    private function setSelectedThemes($request){
+
+    private function setSelectedThemes($request) {
         $this->connectToDB();
         try {
-            $q = 'UPDATE themes SET current=1 WHERE id IN('.$request['theme_admin'].', '.$request['theme_public'].')';
+            $q = 'UPDATE themes SET current=1 WHERE id IN(' . $request['theme_admin'] . ', ' . $request['theme_public'] . ')';
             $stmnt = $this->db_conn->prepare($q);
             $stmnt->execute();
         } catch (PDOException $ex) {
             var_dump($ex->getMessage());
         }
     }
-    
+
     public function step_collect_data() {
         if ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
             $this->smarty->display($this->smarty->current_theme . '/Installer/collect_data.tpl');
@@ -239,10 +234,11 @@ class Installer {
             $this->smarty->display($this->smarty->current_theme . '/index.tpl');
         }
     }
-    
-    public function saveSiteData($request){
+
+    public function saveSiteData($request) {
         unset($request['step']);
         unset($request['next_step']);
+        unset($request['url']);
         $site_settings_file = fopen('site_settings.json', 'w') or die('Unable to open file!');
         fwrite($site_settings_file, json_encode($request));
         fclose($site_settings_file);

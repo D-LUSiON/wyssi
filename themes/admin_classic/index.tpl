@@ -43,18 +43,17 @@
                 </li>
             </ul>
         </header>
-        {$user|var_dump}
         <div id="MainContent-container">
             <aside>
-                <a href="" class="element-container">
-                    <div class="image-container" title="Last entered: {$user['last_entered']|date_format:"%A, %B %e, %Y %H:%M"}">
-                        {if $user['avatar']}
-                        <img src="{get_path file="admins/{$user['avatar']}"}" alt=""/>
+                <a href="{get_path url="admin/user"}" class="element-container">
+                    <div class="image-container" title="Last entered: {$user->last_entered|date_format:"%A, %B %e, %Y %H:%M"}">
+                        {if $user->avatar}
+                        <img src="{get_path file="admins/{$user->avatar}"}" alt=""/>
                         {else}
                         <img src="{get_path file='admins/no_avatar.jpg'}" alt=""/>
                         {/if}
                     </div>
-                    <div class="profile-link">{$user['first_name']} {$user['last_name']}</div>
+                    <div class="profile-link">{$user->first_name} {$user->last_name}</div>
                 </a>
                 <a href="{get_path url='admin'}" class="element-container">
                     <span class="fa fa-desktop"></span>
@@ -72,10 +71,27 @@
                     <span class="fa fa-file-text"></span>
                     <div class="profile-link">Pages</div>
                 </a>
-                <a href="{get_path url='admin/settings'}" class="element-container">
+                <div class="element-container submenu-trigger" data-href="#submenu-users">
+                    <span class="fa fa-users"></span>
+                    <div class="profile-link">Users</div>
+                </div>
+                <div class="element-container submenu-trigger" data-href="#submenu-settings">
                     <span class="fa fa-cogs"></span>
                     <div class="profile-link">Settings</div>
-                </a>
+                </div>
+                
+            </aside>
+            <aside class="submenu">
+                <div class="submenu-content" id="submenu-users">
+                    <a href="{get_path url="admin/user/listUsers"}">
+                        <span class="fa fa-users"></span>
+                    </a>
+                </div>
+                <div class="submenu-content" id="submenu-settings">
+                    <a href="{get_path url='admin/settings'}" class="element-container">
+                        <span class="fa fa-cogs"></span>
+                    </a>
+                </div>
             </aside>
             <div id="MainContent">
                 {include file=$template}
