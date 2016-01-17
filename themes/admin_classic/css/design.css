@@ -51,8 +51,8 @@ body > header { position: absolute; top: 0; z-index: 100; width: 100%; height: 4
 #SiteLogo .logo_container { display: inline-block; height: 28px; padding: 4px 4px 0px 4px; background-color: #fff; }
 #SiteLogo .logo_container > img { display: inline-block; height: 24px; background-color: #fff; }
 #MainContent-container { position: absolute; top: 48px; bottom: 0; width: 100%; }
-#MainContent-container > aside { position: absolute; width: 100px; height: 100%; background-color: #414141; color: #b0b0b0; text-align: center; }
-#MainContent-container > aside > .element-container { display: block; border-top: 1px solid #555; border-bottom: 1px solid #2e2e2e; padding: 18px 4px; font-size: 11px; cursor: pointer; }
+#MainContent-container > aside { position: absolute; width: 100px; height: 100%; background-color: #414141; }
+#MainContent-container > aside > .element-container { display: block; border-top: 1px solid #555; border-bottom: 1px solid #2e2e2e; padding: 18px 4px; background-color: #414141; color: #b0b0b0; font-size: 11px; text-align: center; cursor: pointer; }
 #MainContent-container > aside > .element-container:hover { background-color: #4d4d4d; color: #ccc; }
 #MainContent-container > aside > .element-container .image-container { display: inline-block; width: 64px; margin-bottom: 5px; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; overflow: hidden; background-color: #fff; }
 #MainContent-container > aside > .element-container > .fa { margin-bottom: 5px; font-size: 24px; }
@@ -60,22 +60,35 @@ body > header { position: absolute; top: 0; z-index: 100; width: 100%; height: 4
 #MainContent-container > aside.submenu { left: 100px; z-index: 1000; width: 0px; background-color: #f0f0f0; overflow: hidden; -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; -o-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out; }
 #MainContent-container > aside.submenu.open { width: 225px; }
 #MainContent-container > aside.submenu .submenu-content { display: none; }
+#MainContent-container > aside.submenu .submenu-content .element-container { display: block; border-bottom: 1px solid #ccc; padding: 5px; color: #555; }
+#MainContent-container > aside.submenu .submenu-content .element-container:after { display: block; clear: both; content: ''; }
+#MainContent-container > aside.submenu .submenu-content .element-container:hover { background-color: #ebebeb; }
+#MainContent-container > aside.submenu .submenu-content .element-container .fa { float: left; width: 40px; font-size: 24px; }
+#MainContent-container > aside.submenu .submenu-content .element-container .element-title { font-size: 14px; font-weight: bold; }
+#MainContent-container > aside.submenu .submenu-content .element-container .element-subtitle { color: #888; font-size: 11px; font-style: italic; font-weight: 300; }
 
 #MainContent { position: relative; height: 100%; margin-left: 100px; border-right: 1px solid #555; overflow-y: auto; -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; -o-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out; }
 #MainContent.submenu-open { margin-left: 325px; border-left: 1px solid #2e2e2e; }
 #MainContent h1 { display: block; margin: 0; border-bottom: 1px solid #c3c3c3; padding: 24px 32px; background-color: #f8f8f8; color: #626262; font-size: 14px; }
 #MainContent h1 .fa {margin-right: 5px; }
 #breadcrumb { border-bottom: 1px solid #c3c3c3; padding: 10px 32px; background-color: #f0f0f0; vertical-align: middle; }
-#breadcrumb a { display: inline-block; color: #888; vertical-align: middle; }
-#breadcrumb a:after { display: inline-block; margin: 0 5px; font-family: 'FontAwesome'; content: '\f101'; }
-#breadcrumb a:last-of-type:after { display: inline-block; margin: 0 5px; font-family: 'FontAwesome'; content: ''; }
-#breadcrumb a:hover { color: #666; }
-#breadcrumb a .fa { margin-right: 5px; }
+#breadcrumb > * { display: inline-block; color: #888; vertical-align: middle; }
+#breadcrumb > *:after { display: inline-block; margin: 0 5px; font-family: 'FontAwesome'; content: '\f101'; }
+#breadcrumb > *:last-of-type:after { display: inline-block; margin: 0 5px; font-family: 'FontAwesome'; content: ''; }
+#breadcrumb > *:hover { color: #666; }
+#breadcrumb > * .fa { margin-right: 5px; }
 #MainContent .edit-container {}
 #MainContent .edit-container .edit_header-container { position: absolute; top: 0; left: 0; width: 100%; }
 #MainContent .edit-container .edit_content-container { position: absolute; top: 103px; left: 0; bottom: 0; width: 100%; padding: 50px 25px 0 25px; }
-#MainContent .edit-container .edit_content-container > .wrapper { padding: 15px; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; box-shadow: 5px 5px 20px -5px rgba(0,0,0,0.75); -moz-box-shadow: 5px 5px 20px -5px rgba(0,0,0,0.75); -webkit-box-shadow: 5px 5px 20px -5px rgba(0,0,0,0.75); background-color: #fff; }
+#MainContent .edit-container .edit_content-container > .wrapper {}
 #MainContent .edit-container .edit_content-container > .main_edit-container { padding: 15px; background-color: #fff; }
+#MainContent .edit-container .edit_content-container section {}
+#MainContent .edit-container .edit_content-container section:after { display: block; clear: both; content: ''; }
+#MainContent .edit-container .edit_content-container section aside { float: right; width: 300px; background-color: red; }
+#MainContent .edit-container .edit_content-container section main { margin-right: 300px; }
+#MainContent .edit-container .edit_content-container section aside,
+#MainContent .edit-container .edit_content-container section main .form-container { padding: 15px; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; box-shadow: 5px 5px 20px -5px rgba(0,0,0,0.75); -moz-box-shadow: 5px 5px 20px -5px rgba(0,0,0,0.75); -webkit-box-shadow: 5px 5px 20px -5px rgba(0,0,0,0.75); background-color: #fff; }
+#MainContent .edit-container .edit_content-container section main .form-container { margin-right: 25px; }
 
 #MainContent > section { padding: 15px; }
 #MainContent > section:after { display: block; clear: both; content: ''; }
@@ -100,6 +113,42 @@ body > header { position: absolute; top: 0; z-index: 100; width: 100%; height: 4
 .masonry-container .masonry-element-container         .element-current { display: none; float: right; background-color: transparent; color: #fff; }
 .masonry-container .masonry-element-container.current .element-current { color: #16a085; }
 .masonry-container .masonry-element-container:hover   .element-current { display: block; }
+
+.file_browser-container { position: absolute; top: 102px; right: 0; bottom: 0; left: 0; z-index: 1; -webkit-user-select: none; -ms-user-select: none; user-select: none; }
+.file_browser-container > aside { position: absolute; top: 0; bottom: 0; width: 200px; border-right: 1px solid #ccc; padding: 15px; overflow: auto; }
+.file_browser-container > aside ul { display: block; list-style: none; }
+.file_browser-container > aside ul li { display: block; }
+.file_browser-container > aside ul li:before { float: left; margin-right: 3px; padding: 5px 0; font-family: FontAwesome; font-size: 12px; content: '\f0fe'; }
+.file_browser-container > aside ul li.open:before { content: '\f146'; }
+.file_browser-container > aside ul li:after { display: block; clear: both; content: ''; }
+.file_browser-container > aside ul.folders_tree {}
+.file_browser-container > aside ul.folders_tree li {}
+.file_browser-container > aside ul.folders_tree li .folder_title { display: inline-block; padding: 3px 6px; cursor: pointer; }
+.file_browser-container > aside ul.folders_tree li .folder_title:hover,
+.file_browser-container > aside ul.folders_tree li .folder_title.current { background-color: #ddd; }
+.file_browser-container > aside ul.folders_tree li > ul { display: none; margin-left: 15px; }
+.file_browser-container > aside ul.folders_tree li.open > ul { display: block; }
+.file_browser-container > section { position: absolute; bottom: 0; top: 0; left: 0px; right: 0; margin-left: 200px; overflow-y: auto; }
+.file_browser-container > section > header { border-bottom: 1px solid #ccc; padding: 5px; }
+.file_browser-container > section > header .file_browser-path { padding: 3px 7px; }
+.file_browser-container > section > main { padding: 15px; overflow: auto; }
+.file_browser-container > section > main .file_browser-file_container {}
+.file_browser-container > section > main .file_browser-file_container:after { display: block; clear: both; content: ''; }
+.file_browser-container > section > main .file_browser-file_container .file_container { display: block; padding: 3px 6px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; cursor: pointer; }
+.file_browser-container > section > main .file_browser-file_container .file_container.selected { background-color: #7fecf9; }
+.file_browser-container > section > main .file_browser-file_container .file_container:hover { background-color: #ddd; }
+.file_browser-container > section > main .file_browser-file_container .file_container:after { display: block; clear: both; content: ''; }
+.file_browser-container > section > main .file_browser-file_container .file_container .file_icon-container { float: left; margin-right: 5px; }
+.file_browser-container > section > main .file_browser-file_container .file_container .file_title,
+.file_browser-container > section > main .file_browser-file_container .file_container .file_type,
+.file_browser-container > section > main .file_browser-file_container .file_container .file_size { display: inline-block; overflow: hidden; line-height: 1.2em; text-overflow: ellipsis; white-space: nowrap; }
+.file_browser-container > section > main .file_browser-file_container .file_container .file_title { width: 50%; }
+.file_browser-container > section > main .file_browser-file_container .file_container .file_type { width: 25%; }
+.file_browser-container > section > main .file_browser-file_container .file_container .file_size { width: 25%; }
+.file_browser-contextmenu { display: none; position: absolute; z-index: 100000; width: 150px; border: 1px solid #ccc; background-color: #fff; }
+.file_browser-contextmenu .menu-item { padding: 5px; cursor: pointer; }
+.file_browser-contextmenu .menu-item:hover { background-color: #ccc; }
+.file_browser-contextmenu .menu-divider{ border-bottom: 1px solid #ccc; margin: 10px 0; }
 
 .tiles-container {}
 .tiles-container:after { display: block; clear: both; content: ''; }

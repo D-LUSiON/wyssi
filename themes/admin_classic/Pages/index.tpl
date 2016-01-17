@@ -9,15 +9,15 @@
 </div>
 <section class="masonry-container">
     <div class="masonry-element-container">
-        <a href="{$mainDir}admin/pages/edit" class="element-add fa fa-plus"></a>
+        <a href="{get_path url="admin/pages/edit"}" class="element-add fa fa-plus"></a>
         <div class="element-info">
-            <a href="{$mainDir}admin/pages/edit">Add new page</a>
+            <a href="{get_path url="admin/pages/edit"}">Add new page</a>
         </div>
     </div>
     {foreach $pages as $page}
     <div class="masonry-element-container">
         <a href="{get_path url="admin/pages/delete?id={$page->id}"}" class="element-delete"><span class="fa fa-times"></span></a>
-        <a href="{$mainDir}admin/pages/edit?id={$page->id}">
+        <a href="{get_path url="admin/pages/edit?id={$page->id}"}">
             <img src="{if !isset($page->main_image) or $page->main_image == ''}{get_path asset='img/no_photo.png'}{else}{get_path file=$page->main_image}{/if}" alt=""/>
         </a>
         <div class="element-info">

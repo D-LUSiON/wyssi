@@ -18,7 +18,7 @@
             animate: false,
             windowScroll: false,
             reopenOnRefresh: false,
-            addHeader: false,
+            addHeader: true,
             data: {},
             // element classes
             closeButtonClass: 'closeModalWindow',
@@ -43,7 +43,7 @@
         defaults.html = {
                 overlay: '<div id="'+defaults.modalWindowOverlayId+'"/>',
                 windowContainer: '<div class="'+defaults.modalWindowContainerClass+'[[add_class]]" id="modalWindow[[win_id]]"/>',
-                windowHeader: '<div class="'+defaults.modalWindowHeaderClass+'">[[header_title]]<div class="delete[[closeButtonClass]]"></div><div class="clearright"></div></div>',
+                windowHeader: '<div class="'+defaults.modalWindowHeaderClass+'"><div class="delete[[closeButtonClass]]"></div>[[header_title]]</div>',
                 windowContent: '<div class="'+defaults.modalWindowContentClass+'"></div>'
         };
         
@@ -304,6 +304,7 @@
                     case 'dom':
                         _getContentDOM();
                         break;
+                    case 'string':
                     default:
                         obj.windowContentHtml = content;
                         _.$elements.body.trigger('contentReady');
@@ -334,7 +335,7 @@
                 if (settings.addHeader) {
                     var tmp_header = settings.html.windowHeader.replace(/\[\[header_title\]\]/gi, settings.windowTitle).replace(/\[\[closeButtonClass\]\]/gi, ' ' + settings.closeButtonClass);
                     _.$elements.modalHeader = $(tmp_header).appendTo(_.$elements.modalContainer);
-                }
+                
                 if (settings.windowTitle)
                     _.$elements.modalHeader.css({
                         'position': 'relative',
@@ -342,6 +343,7 @@
                         'text-align': 'left',
                         'right': '0'
                     });
+                }
                 _.$elements.modalContent = $(settings.html.windowContent).appendTo(_.$elements.modalContainer);
                 if (settings.contentHeight) {
                     _.$elements.modalHeader.css({

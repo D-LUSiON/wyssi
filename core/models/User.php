@@ -2,7 +2,7 @@
 namespace Models;
 
 class User extends Database {
-    public $table;
+    public $table = 'users';
     public $id;
     public $username;
     public $password;
@@ -16,7 +16,6 @@ class User extends Database {
     public $required_fields = Array('username', 'password', 'first_name', 'last_name', 'admin', 'avatar');
     
     function __construct() {
-        $this->table = 'users';
         parent::__construct();
     }
     

@@ -1,4 +1,5 @@
 $(function(){
+    window.main_dir = $('body').data('main_dir');
     $.ajaxSetup({
         headers: {
             'X-Requested-With': 'XMLHttpRequest'

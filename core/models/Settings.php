@@ -4,14 +4,13 @@ namespace Models;
 
 class Settings extends Database {
 
-    public $table;
+    public $table = 'settings';
     public $id;
     public $theme_name;
     public $theme_path;
     public $current;
 
     function __construct() {
-        $this->table = 'settings';
         parent::__construct();
     }
 

@@ -2,7 +2,7 @@
 namespace Models;
 
 class Theme extends Database {
-    public $table;
+    public $table = 'themes';
     public $id;
     public $theme_name;
     public $theme_path;
@@ -11,9 +11,7 @@ class Theme extends Database {
     public $preview_image;
     public $required_fields = Array('theme_name', 'theme_path', 'theme_type', 'current', 'preview_image');
     
-    function __construct($data = null) {
-        $this->table = 'themes';
-        
+    function __construct($data = null) {        
         if (isset($data)) {
             foreach ($data as $key => $value) {
                 $this->{$key} = $value;

@@ -9,12 +9,6 @@
 </div>
 <header>Admin themes</header>
 <section class="masonry-container">
-    <div class="masonry-element-container">
-        <a href="{get_path url='admin/themes/edit'}" class="element-add fa fa-plus"></a>
-        <div class="element-info">
-            <a href="{get_path url='admin/themes/edit'}">Add new theme</a>
-        </div>
-    </div>
     {foreach $themes as $theme}
     {if $theme->theme_type == 'admin'}
     <div class="masonry-element-container{if $theme->current == 1} current{/if}">

@@ -30,7 +30,7 @@ class BaseController {
             
         
         $this->smarty->assign('siteDir', MAIN_DIR);
-        $this->smarty->assign('mainDir', MAIN_DIR);
+        $this->smarty->assign('mainDir', MAIN_DIR . (($_SESSION['admin_interface'] == ADMIN_DIR)? ADMIN_DIR : '') . DIRECTORY_SEPARATOR);
         $this->smarty->assign('themeDir', MAIN_DIR . THEMES_DIR . $this->templateDir . '/');
     }
     
