@@ -35,8 +35,7 @@ class BaseController {
     }
     
     public function display($template = false, $master = 'index.tpl'){
-        $trace = debug_backtrace();
-        //$this->smarty->assign('controller', $this->caller['class']);
+        $this->caller = debug_backtrace()[1];
         $this->caller_controller = explode('\\', strtolower(rtrim($this->caller['class'])))[1];
         $this->caller_method = $this->caller['function'];
         $this->smarty->assign('controller', $this->caller_controller);

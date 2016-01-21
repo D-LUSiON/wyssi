@@ -26,7 +26,6 @@
         <span class="fa fa-cogs"></span>
         <div class="profile-link">Settings</div>
     </div>
-
 </aside>
 <aside class="submenu">
     <div class="submenu-content" id="submenu-site_content">

@@ -43,11 +43,10 @@
                 </li>
             </ul>
         </header>
-        {assign "sidebar_path" "admin_classic/"+$controller+"/sidebar.tpl"}
+        {assign "sidebar_path" "{$smarty.const.THEMES_DIR}admin_classic/{$controller}/{$method}-sidebar.tpl"}
         <div id="MainContent-container" data-file="{$sidebar_path}">
-            
             {if file_exists($sidebar_path)}
-                
+                {include file="admin_classic/{$controller}/{$method}-sidebar.tpl"}
             {else}
                 {include file="admin_classic/sidebar.tpl"}
             {/if}
