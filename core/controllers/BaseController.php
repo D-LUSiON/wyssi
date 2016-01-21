@@ -34,7 +34,7 @@ class BaseController {
         $this->smarty->assign('themeDir', MAIN_DIR . THEMES_DIR . $this->templateDir . '/');
     }
     
-    public function display($template = false, $master = 'index.tpl'){
+    public function display($template = false, Array $assigns, $master = 'index.tpl'){
         $this->caller = debug_backtrace()[1];
         $this->caller_controller = explode('\\', strtolower(rtrim($this->caller['class'])))[1];
         $this->caller_method = $this->caller['function'];
@@ -52,6 +52,9 @@ class BaseController {
         $this->smarty->assign('user', $_SESSION['user']);
         $this->smarty->assign('template', $template);
         
+        foreach ($assigns as $key => $value) {
+            $this->smarty->assign($key, $value);
+        }
         $this->smarty->display($master);
     }
     
