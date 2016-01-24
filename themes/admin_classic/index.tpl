@@ -8,11 +8,11 @@
             <link rel="stylesheet" type="text/css" href="{get_path asset='css/design.css'}" media="all"/>
         {/block}
         {block "scripts"}
-            <script type="text/javascript" src="{get_path asset='js/js.missing_functions.js'}"></script>
-            <script type="text/javascript" src="{get_path asset='js/jquery.js'}"></script>
-            <script type="text/javascript" src="{get_path asset='js/jquery-ui.js'}"></script>
-            <script type="text/javascript" src="{get_path asset='js/jquery.modalWindow.js'}"></script>
-            <script type="text/javascript" src="{get_path asset='js/layout.js'}"></script>
+            <script type="text/javascript" src="{get_path asset='js_lib/js.missing_functions.js'}"></script>
+            <script type="text/javascript" src="{get_path asset='js_lib/jquery.js'}"></script>
+            <script type="text/javascript" src="{get_path asset='js_lib/jquery-ui.js'}"></script>
+            <script type="text/javascript" src="{get_path asset='js_lib/jquery.modalWindow.js'}"></script>
+            <script type="text/javascript" src="{get_path asset='js_lib/layout.js'}"></script>
             <script type="text/javascript" src="{get_path asset='js/common-scripts.js'}"></script>
         {/block}
     </head>
@@ -43,12 +43,16 @@
                 </li>
             </ul>
         </header>
-        {assign "sidebar_path" "{$smarty.const.THEMES_DIR}admin_classic/{$controller}/{$method}-sidebar.tpl"}
-        <div id="MainContent-container" data-file="{$sidebar_path}">
-            {if file_exists($sidebar_path)}
+        {assign "sidebar_left_path" "{$smarty.const.THEMES_DIR}admin_classic/{$controller}/{$method}-sidebar.tpl"}
+        {assign "sidebar_right_path" "{$smarty.const.THEMES_DIR}admin_classic/{$controller}/{$method}-sidebar-right.tpl"}
+        <div id="MainContent-container"{if file_exists($sidebar_right_path)} class="sidebar-right"{/if}>
+            {if file_exists($sidebar_left_path)}
                 {include file="admin_classic/{$controller}/{$method}-sidebar.tpl"}
             {else}
                 {include file="admin_classic/sidebar.tpl"}
+            {/if}
+            {if file_exists($sidebar_right_path)}
+                {include file="admin_classic/{$controller}/{$method}-sidebar-right.tpl"}
             {/if}
             <div id="MainContent">
                 {include file=$template}

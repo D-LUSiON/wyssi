@@ -1,0 +1,6 @@
+.equal_tabs-container {}
+.equal_tabs-container > .tabs-container {}
+.equal_tabs-container > .tabs-container .tab {}
+.equal_tabs-container > .tabs-content_container {}
+.equal_tabs-container > .tabs-content_container .tab-content {}
+.equal_tabs-container > .tabs-content_container .tab-content.current {}

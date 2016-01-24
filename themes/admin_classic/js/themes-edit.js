@@ -1,0 +1,4 @@
+$(function(){
+    $.themeEditor();
+    $('.tabs').tabs();
+});

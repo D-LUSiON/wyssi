@@ -1,0 +1,65 @@
+.tabs { width: 100%; font-size: 13px; }
+.tabs > .tabs-container { position: relative; width: 100%; height: 48px; overflow: hidden; background-color: #f5f5f5; }
+.tabs > .tabs-container:after { display: block; clear: both; content: ''; }
+.tabs > .tabs-container > .tab-container > .subtab-container { display: none; }
+.tabs > .tabs-container > .tab-container.current > .subtab-container { display: block; }
+
+.tabs.radio_tabs > .tabs-container { margin-bottom: 10px; border-bottom: 1px dashed #ccc; background-color: transparent; }
+.tabs.radio_tabs > .tabs-container .checkbox-container { margin-right: 35px; padding: 20px 0; }
+.tabs.radio_tabs > .tabs-container .checkbox-container.no_padding { padding: 0; }
+
+/* horizontal tabs */
+.tabs > .tabs-container .tabs-heading { float: left; padding: 16px 18px; font-size: inherit; font-weight: bold; text-transform: uppercase; }
+.tabs > .tabs-container .tab { display: block; float: left; border-top: 1px solid #f5f5f5; border-right: 1px solid #e5e5e5; margin: 15px 0px 16px 0px; padding: 0px 10px; background-color: #f5f5f5; cursor: pointer; color: #46a5a0; font-size: 12px; text-transform: uppercase; }
+.tabs > .tabs-container .tab:last-of-type { border-right: none; }
+.tabs > .tabs-container .tab.current { border-top: 3px solid #46a5a0; border-right: none; margin: 0; padding: 15px 10px 16px 10px; background-color: white; color: black; font-weight: bold; }
+.tabs > .tabs-container .tab.first { margin-left: 8px; }
+.tabs > tabs .tabs-container .tab:hover { text-decoration: none; }
+/* tabs vertical*/
+.tabs.vertical { position: relative; border-top: 1px solid #dadada; }
+.tabs.vertical > .tabs-container { float: left; position: relative; z-index: 10; width: 200px; height: auto; }
+
+.content-container.sidebar-right .tabs.vertical > .tabs-container { float: left; position: relative; z-index: 10; /*width: 200px;*/ width: 100%; height: auto; }
+.content-container.sidebar-right .tabs.vertical > .tabs-container.right {  float: right; width: 326px; }
+.tabs.vertical > .tabs-container .tab { float: none; display: block; width: 100%; height: auto; margin: 0; border-top: 1px solid #ffffff; border-right: 1px solid #dadada; border-bottom: 1px solid #dadada; border-left: 1px solid #dadada; padding: 17px 18px 15px 18px; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; color: #444; text-transform: none; }
+.tabs.vertical > .tabs-container .tab { background-color: #e9e9e9; }
+.tabs.vertical > .tabs-container > .tab.current { background-color: #dddddd; font-weight: bold; }
+.tabs.vertical > .tabs-container .subtab-container .tab { background-color: #f5f5f5; }
+.tabs.vertical > .tabs-container .tab .icon24x24 { float: right; }
+.tabs.vertical > .tabs-container.icons-left .tab .icon24x24 { margin-right: 30px; margin-left: 10px; float: left; }
+.tabs.vertical > .tabs-container.icons-left .tab .counter { float: right; }
+.tabs.vertical > .tabs-container .content { padding: 15px 18px 16px; background-color: #ffffff; }
+.tabs.vertical > .tabs-container .tab.first {}
+.tabs.vertical > .tabs-container .subtab-container .tab.current { border-right: 1px solid white; border-left: 2px solid #1b8fd6; background-color: white; font-weight: bold; }
+.tabs.vertical > .tabs-content_overlay { position: absolute; z-index: 1; left: 199px; width: 0; height: 100%; border-left: 1px solid #dadada; }
+.tabs.vertical > .tabs-content_container,
+.content-container.sidebar-left .tabs-content_container { position: relative; z-index: 10; margin-left: 200px; }
+/* tabs controlls */
+.tabs > .tabs-container .tabs-fade { position: absolute; top: 0; left: 0; z-index: 1000; width: 62px; height: 47px; background-repeat: repeat-y; }
+.tabs > .tabs-container .tabs-fade.left { background-image: url('img/tabs_fade_left.png'); }
+.tabs > .tabs-container .tabs-fade.right { background-image: url('img/tabs_fade_right.png'); }
+.tabs > .tabs-container .tabs-container-mover { position: absolute; width: auto; height: 100%; }
+.tabs > .tabs-container .tabs-controlls { position: absolute; top: 0; right: 0; height: 100%; }
+.tabs > .tabs-container .tabs-controlls .tabs-controlls-pagination { margin-left: 62px; overflow: auto; width: auto; padding: 13px 5px; background-color: #f5f5f5; }
+.tabs > .tabs-container .tabs-controlls .tabs-controlls-pagination .tabs-controlls-arrow,
+.tabs > .tabs-container .tabs-controlls .tabs-controlls-pagination .tabs-controlls-pagination_item { float: left; background-image: url("img/tabs_pagination.png"); background-repeat: no-repeat; cursor: pointer; }
+.tabs > .tabs-container .tabs-controlls .tabs-controlls-pagination .tabs-controlls-pagination_item.disabled { cursor: default; }
+.tabs > .tabs-container .tabs-controlls .tabs-controlls-pagination .tabs-controlls-arrow { width: 22px; height: 21px; }
+.tabs > .tabs-container .tabs-controlls .tabs-controlls-pagination .tabs-controlls-arrow.left { background-position: 0 -21px; }
+.tabs > .tabs-container .tabs-controlls .tabs-controlls-pagination .tabs-controlls-arrow.left:hover { background-position: 0 -42px; }
+.tabs > .tabs-container .tabs-controlls .tabs-controlls-pagination .tabs-controlls-arrow.left.disabled,
+.tabs > .tabs-container .tabs-controlls .tabs-controlls-pagination .tabs-controlls-arrow.left.disabled:hover { background-position: 0 0; }
+.tabs > .tabs-container .tabs-controlls .tabs-controlls-pagination .tabs-controlls-arrow.right { background-position: -22px -21px; }
+.tabs > .tabs-container .tabs-controlls .tabs-controlls-pagination .tabs-controlls-arrow.right:hover { background-position: -22px -42px; }
+.tabs > .tabs-container .tabs-controlls .tabs-controlls-pagination .tabs-controlls-arrow.right.disabled,
+.tabs > .tabs-container .tabs-controlls .tabs-controlls-pagination .tabs-controlls-arrow.right.disabled:hover { background-position: -22px 0; }
+.tabs > .tabs-container .tabs-controlls .tabs-controlls-pagination .tabs-controlls-pagination_item { width: 15px; height: 21px; background-position: -44px 0; }
+.tabs > .tabs-container .tabs-controlls .tabs-controlls-pagination .tabs-controlls-pagination_item:hover,
+.tabs > .tabs-container .tabs-controlls .tabs-controlls-pagination .tabs-controlls-pagination_item.current { background-position: -44px -21px; }
+
+/*tabs content - horizontal*/
+.tabs > .tabs-content_container {}
+.tabs > .tabs-content_container .tab-content { display: none; padding: 10px; background-color: #fff; }
+.tabs > .tabs-content_container .tab-content.current { display: block; }
+
+/*tabs content - vertical*/

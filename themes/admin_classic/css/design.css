@@ -51,14 +51,15 @@ body > header { position: absolute; top: 0; z-index: 100; width: 100%; height: 4
 #SiteLogo .logo_container { display: inline-block; height: 28px; padding: 4px 4px 0px 4px; background-color: #fff; }
 #SiteLogo .logo_container > img { display: inline-block; height: 24px; background-color: #fff; }
 #MainContent-container { position: absolute; top: 48px; bottom: 0; width: 100%; }
-#MainContent-container > aside { position: absolute; width: 100px; height: 100%; background-color: #414141; }
+#MainContent-container > aside { position: absolute; z-index: 1001; width: 100px; height: 100%; background-color: #414141; }
 #MainContent-container > aside > .element-container { display: block; border-top: 1px solid #555; border-bottom: 1px solid #2e2e2e; padding: 18px 4px; background-color: #414141; color: #b0b0b0; font-size: 11px; text-align: center; cursor: pointer; }
+#MainContent-container > aside > .element-container.open,
 #MainContent-container > aside > .element-container:hover { background-color: #4d4d4d; color: #ccc; }
 #MainContent-container > aside > .element-container .image-container { display: inline-block; width: 90%; margin-bottom: 5px; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; overflow: hidden; background-color: #fff; }
 #MainContent-container > aside > .element-container > .fa { margin-bottom: 5px; font-size: 24px; }
 #MainContent-container > aside > .element-container .profile-link { display: block; }
-#MainContent-container > aside.submenu { left: 100px; z-index: 1000; width: 0px; background-color: #f0f0f0; overflow: hidden; -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; -o-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out; }
-#MainContent-container > aside.submenu.open { width: 225px; }
+#MainContent-container > aside.submenu { left: -125px; z-index: 1000; width: 225px; background-color: #f0f0f0; overflow: hidden; -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; -o-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out; }
+#MainContent-container > aside.submenu.open { left: 100px; }
 #MainContent-container > aside.submenu .submenu-content { display: none; }
 #MainContent-container > aside.submenu .submenu-content .element-container { display: block; border-bottom: 1px solid #ccc; padding: 5px; color: #555; }
 #MainContent-container > aside.submenu .submenu-content .element-container:after { display: block; clear: both; content: ''; }
@@ -66,8 +67,10 @@ body > header { position: absolute; top: 0; z-index: 100; width: 100%; height: 4
 #MainContent-container > aside.submenu .submenu-content .element-container .fa { float: left; width: 40px; font-size: 24px; }
 #MainContent-container > aside.submenu .submenu-content .element-container .element-title { font-size: 14px; font-weight: bold; }
 #MainContent-container > aside.submenu .submenu-content .element-container .element-subtitle { color: #888; font-size: 11px; font-style: italic; font-weight: 300; }
+#MainContent-container > aside.sidebar-right { right: 0; width: 200px; }
 
 #MainContent { position: relative; height: 100%; margin-left: 100px; border-right: 1px solid #555; overflow-y: auto; -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; -o-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out; }
+.sidebar-right #MainContent { margin-right: 200px; }
 #MainContent.submenu-open { margin-left: 325px; border-left: 1px solid #2e2e2e; }
 #MainContent h1 { display: block; margin: 0; border-bottom: 1px solid #c3c3c3; padding: 24px 32px; background-color: #f8f8f8; color: #626262; font-size: 14px; }
 #MainContent h1 .fa {margin-right: 5px; }

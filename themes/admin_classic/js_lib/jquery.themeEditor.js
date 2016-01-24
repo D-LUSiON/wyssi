@@ -69,6 +69,7 @@
         var defaults = {
             lang: 'en',
             selectors: {
+                iframe: '#ThemeEditor-container > iframe',
                 main_menu_container: 'body .layouts-container > img',
                 main_preview_container: '#ThemeEditor-container'
             },
@@ -101,16 +102,25 @@
                 console.log(elements_data);
                 _runEventListeners();
             });
-            
+            _.$elements.iframe.body.html('<h1 style="color: red;">Hello world!</h1>');
+            // init here draggable and droppable
             return this;
         }
         
         function _buildSelectors(){
-            for (var key in _.settings.selectors)
+            for (var key in _.settings.selectors) {
                 _.$elements[key] = $(_.settings.selectors[key]);
-            if (_.$elements.main_preview_container.data('id'))
-                obj.theme
-            _.main_dir = _.$elements.body.data('main_dir')
+                var nodeType = (_.$elements[key].get(0) || {}).tagName;
+                if (nodeType && (nodeType || '').toLowerCase() === 'iframe') {
+                    _.$elements[key] = {
+                        html: _.$elements[key].contents().find('html'),
+                        head: _.$elements[key].contents().find('head'),
+                        body: _.$elements[key].contents().find('body')
+                    };
+                }
+            }
+            
+            _.main_dir = _.$elements.body.data('main_dir');
             return true;
         }
         
@@ -119,15 +129,18 @@
         }
         
         function _getResources(callback){
-            $.ajax({
-                url: _.main_dir + _.settings.url.get_resources,
-                //dataType: 'json',
-                success: function(data){
-                    if (typeof callback === 'function') {
-                        callback(data);
+            if (1 !== 1)
+                $.ajax({
+                    url: _.main_dir + _.settings.url.get_resources,
+                    //dataType: 'json',
+                    success: function(data){
+                        if (typeof callback === 'function') {
+                            callback(data);
+                        }
                     }
-                }
-            });
+                });
+            else
+                callback();
         }
         
         /**
@@ -242,7 +255,3 @@
         }
     };
 })(jQuery, window, document);
-
-$(function(){
-    $.themeEditor();
-});
