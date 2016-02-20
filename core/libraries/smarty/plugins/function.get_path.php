@@ -29,7 +29,7 @@ function smarty_function_get_path($params, &$smarty){
     
     /* main function */
     if (isset($params['asset'])) {
-        return MAIN_DIR . preg_replace('/[^\da-z]/i', '', $smarty->getTemplateDir()[0]) . '/' . $smarty->current_theme . '/' . $params['asset'];
+        return MAIN_DIR . preg_replace('/[^\da-z]/i', '', $smarty->getTemplateDir()[0]) . DIRECTORY_SEPARATOR . $smarty->current_theme . DIRECTORY_SEPARATOR . $params['asset'];
     }
     if (isset($params['file'])) {
         return MAIN_DIR . UPLOADS_DIR . $params['file'];

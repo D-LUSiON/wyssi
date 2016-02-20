@@ -24,15 +24,40 @@
         var obj = this;
         var defaults = {
             lang: 'en',
+            visible_tabs: 2, // 2 - 4
+            initial_tab: 1,
+            selectors: {
+                tabs_container: '.tabs-container',
+                tab: '.tab',
+                tabs_content_container: '.tabs-content_container',
+                tab_content: '.tab-content'
+            },
+            classes: {
+                has_current: 'has_current',
+                more_tabs_open: 'open',
+                tab_current: 'current',
+                tab_content_current: 'current',
+                tabs_num: 'tabs-[[visible_tabs]]',
+                has_more_tabs: 'more_tabs'
+            },
             templates: {
-                example_template: '<div>%some_text% - [[some_value]]</div>'
+                more_tabs: {
+                    container: '<div class="more_tabs-container">',
+                    trigger: '<span class="fa fa-angle-double-right"/>',
+                    dropdown: '<div class="more_tabs-dropdown">'
+                }
             }
         };
         
         var _ = {
             $element: {
                 root: $(element),
-                body: $('body')
+                body: $('body'),
+                tabs_container: null,
+                tabs: null,
+                tab_contents_container: null,
+                tab_contents: null,
+                more_tabs: {}
             },
             ie_lt_9: ($.browser.msie && parseFloat($.browser.version) > 9) || (!$.browser.msie && navigator.userAgent.indexOf('Trident') === -1),
             settings: $.extend(true, {}, defaults, options || {})
@@ -41,9 +66,59 @@
         _.localization = window.Localization[pluginName][_.settings.lang];
         
         var __construct = (function(){
+            _cacheSelectors();
+            
+            if (_.$element.tabs.length > _.settings.visible_tabs) {
+                _addMoreTabsElements();
+            }
+            
+            setCurrentTab(_.settings.initial_tab || 1);
+            
             _startEventListeners();
             return this;
         })();
+        
+        function _cacheSelectors(){
+            _.$element.tabs_container = _.$element.root.children(_.settings.selectors.tabs_container);
+            _.$element.tabs = _.$element.tabs_container.children(_.settings.selectors.tab);
+            _.$element.tab_contents_container = _.$element.root.children(_.settings.selectors.tabs_content_container);
+            _.$element.tab_contents = _.$element.tab_contents_container.children(_.settings.selectors.tab_content);
+            
+            _.$element.tabs_container.addClass(_.settings.classes.tabs_num.replace(/\[\[visible_tabs\]\]/gi, _.settings.visible_tabs));
+        }
+        
+        function _addMoreTabsElements(){
+            for (var key in _.settings.templates.more_tabs) {
+                _.$element.more_tabs[key] = $(_.settings.templates.more_tabs[key]);
+            }
+            _.$element.more_tabs.container.appendTo(_.$element.tabs_container);
+            _.$element.more_tabs.trigger.appendTo(_.$element.more_tabs.container);
+            _.$element.more_tabs.dropdown.appendTo(_.$element.more_tabs.container);
+            _.$element.tabs.each(function(i){
+                if (i >= _.settings.visible_tabs) {
+                    $(this).appendTo(_.$element.more_tabs.dropdown);
+                }
+            });
+            _.$element.tabs_container.addClass(_.settings.classes.has_more_tabs);
+        }
+        
+        function _removeMoreTabsElements(){
+            
+        }
+        
+        function setCurrentTab(index){
+            if (index && index > 0) {
+                _.$element.tabs.removeClass(_.settings.classes.tab_current);
+                var $current_tab = $(_.$element.tabs.get(index-1)).addClass(_.settings.classes.tab_current);
+                _.$element.tab_contents.removeClass(_.settings.classes.tab_content_current);
+                _.$element.tab_contents.filter($current_tab.attr('href')).addClass(_.settings.classes.tab_content_current);
+                if (_.$element.more_tabs.dropdown.find($current_tab).length === 1) {
+                    _.$element.more_tabs.container.addClass(_.settings.classes.has_current);
+                } else {
+                    _.$element.more_tabs.container.removeClass(_.settings.classes.has_current);
+                }
+            }
+        };
         
         function _translate(text, custom_value, custom_text, lang) {
             if (text) {
@@ -71,7 +146,22 @@
         }
         
         function _startEventListeners(){
+            if (_.$element.more_tabs.trigger) {
+                _.$element.more_tabs.trigger.on('click', function(e){
+                    e.preventDefault();
+                    _.$element.more_tabs.container.toggleClass(_.settings.classes.more_tabs_open);
+                });
+            }
             
+            _.$element.tabs.on('click', function(e){
+                e.preventDefault();
+                var $this = $(this);
+                var index = $this.index() + 1;
+                if (_.$element.more_tabs.dropdown.find($this).length === 1) {
+                    index += _.settings.visible_tabs;
+                }
+                setCurrentTab(index);
+            });
         };
         
         this.version = function(){

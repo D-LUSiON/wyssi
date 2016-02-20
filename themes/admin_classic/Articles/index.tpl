@@ -1,11 +1,11 @@
-<script type="text/javascript" src="{get_path asset='js/masonry.pkgd.min.js'}"></script>
+<script type="text/javascript" src="{get_path asset='js_lib/masonry.pkgd.min.js'}"></script>
 <script type="text/javascript" src="{get_path asset='js/articles-list.js'}"></script>
 <h1><span class="fa fa-desktop"></span> Pages list</h1>
 <div id="breadcrumb">
     <a href="{get_path url="admin"}">
         <span class="fa fa-desktop"></span> Dashboard
     </a>
-    <a href="{get_path url="admin/edit"}">Pages</a>
+    <span>Articles</span>
 </div>
 <section class="masonry-container">
     <div class="masonry-element-container">

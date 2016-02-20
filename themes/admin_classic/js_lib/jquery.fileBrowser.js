@@ -14,7 +14,7 @@
     'use strict';
     var pluginName = 'fileBrowser',
         version = 'v0.0.1',
-        dependancies = ['modalWindow'],
+        dependancies = ['modalWindow', 'fileupload'],
         local_namespace = {};
 
     if (typeof window.Localization === 'undefined')
@@ -40,19 +40,29 @@
         var defaults = {
             lang: 'en',
             transport: {
-                create: {
-                   url: '' 
-                },
                 read: {
                     url: window.main_dir + 'files/getList'
                 },
                 update: {
-                    url: ''
+                    url: window.main_dir + 'files/update'
                 },
-                del: {
-                    url: ''
+                mkdir: {
+                    url: window.main_dir + 'files/mkdir'
+                },
+                remove: {
+                    url: window.main_dir + 'files/delete'
+                },
+                upload: {
+                    url: window.main_dir + 'files/upload'
+                },
+                get_properties: {
+                    url: window.main_dir + 'files/getProperties'
                 }
             },
+            file_upload_options: {
+                maxChunkSize: 2 * 1024 * 1024 // 2Mb
+            },
+            multiple_upload: true,
             classes: {
                 directory_tree: {
                     selector: '.folders_tree',
@@ -61,17 +71,23 @@
                 all_list: {
                     selector: '.file_browser-file_container',
                     item: '.file_container'
+                },
+                uploader: {
+                    input: '.file_upload-trigger',
+                    progress_container: '.file_browser-progress',
+                    progress: '.progress',
+                    info: '.progress-info'
                 }
             },
             template: {
                 directory_tree: {
                     container: '<ul/>',
-                    item:   '<li data-dir="[[title]]">'+
+                    item:   '<li data-dir="[[path]]">'+
                                 '<div class="folder_title" data-type="folder">[[title]]</div>'+
                             '</li>'
                 },
                 all_list: {
-                    item:   '<div class="file_container" data-type="[[type]]" data-title="[[title]]">'+
+                    item:   '<div class="file_container" data-type="[[type]]" data-title="[[path]]">'+
                                 '<div class="file_icon-container">'+
                                     '<span class="fa fa-[[type]]"></span>'+
                                 '</div>'+
@@ -98,7 +114,12 @@
                     },
                     {
                         title: 'Delete',
-                        action: 'delete_folder'
+                        action: 'delete_file_folder'
+                    },
+                    'divider',
+                    {
+                        title: 'Refresh',
+                        action: 'refresh'
                     },
                     'divider',
                     {
@@ -113,7 +134,12 @@
                     },
                     {
                         title: 'Delete',
-                        action: 'delete_file'
+                        action: 'delete_file_folder'
+                    },
+                    'divider',
+                    {
+                        title: 'Refresh',
+                        action: 'refresh'
                     },
                     'divider',
                     {
@@ -129,7 +155,12 @@
                     {
                         title: 'New folder',
                         action: 'new_folder'
+                    },
+                    {
+                        title: 'Refresh',
+                        action: 'refresh'
                     }
+                    
                 ]
             }
         };
@@ -138,7 +169,14 @@
             $elements: {
                 body: $('body'),
                 root: $(element),
-                directory_tree: ''
+                directory_tree: '',
+                uploader_input: null,
+                uploader: {
+                    input: null,
+                    progress_container: null,
+                    progress: null,
+                    info: null
+                }
             },
             settings: $.extend(true, {}, defaults, options || {})
         };
@@ -151,6 +189,7 @@
          */
         function __construct() {
             _buildHTML();
+            _initFileUploader();
             _runEventListeners();
             _getDir(null);
             return this;
@@ -160,6 +199,31 @@
             _.$elements.contextmenu = $(_.settings.template.contextmenu.container).appendTo(_.$elements.body);
             _.$elements.directory_tree = _.$elements.root.find(_.settings.classes.directory_tree.selector);
             _.$elements.all_container = _.$elements.root.find(_.settings.classes.all_list.selector);
+        }
+        
+        function _initFileUploader(){
+            _.$elements.uploader.progress_container = _.$elements.root.find(_.settings.classes.uploader.progress_container).hide();
+            _.$elements.uploader.progress = _.$elements.uploader.progress_container.find(_.settings.classes.uploader.progress).width(0);
+            _.$elements.uploader.info = _.$elements.uploader.progress_container.find(_.settings.classes.uploader.info);
+            
+            if (!_.settings.file_upload_options.url)
+                _.settings.file_upload_options.url = _.settings.transport.upload.url;
+            
+            _.$elements.uploader.input = _.$elements.root.find(_.settings.classes.uploader.input)
+                                            .fileupload(_.settings.file_upload_options)
+                                            .on('fileuploadstart', function(){
+                                                _.$elements.uploader.progress_container.show();
+                                                _.$elements.uploader.progress.width('0%');
+                                                _.$elements.uploader.info.text('0%');
+                                            })
+                                            .on('fileuploadprogress', function(e, data){
+                                                var percent = parseInt(data.loaded / data.total * 100, 10);
+                                                _.$elements.uploader.progress.width(percent + '%');
+                                                _.$elements.uploader.info.text(percent + '%');
+                                            })
+                                            .on('fileuploaddone', function(e, data){
+                                                _.$elements.uploader.progress_container.hide();
+                                            });
         }
         
         function _getDir(path){
@@ -182,15 +246,31 @@
                         $dir_container = $(_.settings.template.directory_tree.container).insertAfter($tree_element);
                     
                     for (var i = 0, max = response.length; i < max; i++) {
-                        if (response[i].type === 'folder')
-                            folders += _.settings.template.directory_tree.item.replace(/\[\[title\]\]/gi,response[i].title);
+                        if (response[i].type === 'folder') {
+                            folders += _.settings.template.directory_tree.item.replace(/\[\[(.+?)\]\]/gi, function($0, $1){
+                                if (response[i][$1])
+                                    return response[i][$1];
+                                return '';
+                            });
                         
-                        all += _.settings.template.all_list.item.replace(/\[\[(.+?)\]\]/gi, function($0, $1){
-                            if (response[i][$1])
-                                return response[i][$1];
-                            return '';
-                        });
+                            all += _.settings.template.all_list.item.replace(/\[\[(.+?)\]\]/gi, function($0, $1){
+                                if (response[i][$1])
+                                    return response[i][$1];
+                                return '';
+                            });
+                        }
                     }
+                    
+                    for (var i = 0, max = response.length; i < max; i++) {
+                        if (response[i].type !== 'folder') {
+                            all += _.settings.template.all_list.item.replace(/\[\[(.+?)\]\]/gi, function($0, $1){
+                                if (response[i][$1])
+                                    return response[i][$1];
+                                return '';
+                            });
+                        }
+                    }
+                    
                     if (!$tree_element.parent().hasClass('open')) {
                         $tree_element.parent().addClass('open');
                         if (folders === '')
@@ -221,7 +301,7 @@
                 }
                 
             }
-            _.$elements.contextmenu.html(context_content).css({
+            _.$elements.contextmenu.data('node_data', e).html(context_content).css({
                 top: e.pageY + 'px',
                 left: e.pageX + 'px'
             }).show();
@@ -231,17 +311,75 @@
             _.$elements.contextmenu.empty().hide();
         }
         
-        function _contextAction(action){
-            console.log(action);
-            switch (action) {
-                case '':
-                    
-                    break;
-                    
-                default: break;
-            }
+        function _contextAction(action, data){
             _hideContextMenu();
+            if ($.isFunction(obj.contextActions[action]))
+                obj.contextActions[action](_.$elements.contextmenu.data('node_data'));
+            _.$elements.contextmenu.removeData('node_data');
         }
+        
+        this.contextActions = {
+            new_folder: function(data){
+                var new_folder = prompt('Enter new folder name:');
+                if (new_folder && new_folder !== '') {
+                    $.ajax({
+                        url: _.settings.transport.mkdir.url,
+                        data: {
+                            dir: obj.current_path,
+                            new_folder: new_folder
+                        },
+                        success: function(response){
+                            _getDir();
+                        }
+                    });
+                }
+            },
+            rename_folder: function(data){
+                console.log('rename_folder', data);
+            },
+            delete_file_folder: function(data){
+                if (confirm('Are you sure you want to delete?')) {
+                    console.log('delete_file_folder', data);
+                }
+            },
+            file_upload: function(data){
+                console.log('file_upload', $(data.currentTarget).data());
+                _.$elements.uploader.input.trigger('click');
+            },
+            rename_file: function(data){
+                var $current_target = $(data.currentTarget),
+                    file_name = $current_target.data().title,
+                    file_path = '/' + obj.current_path + '/' + file_name,
+                    new_name = prompt('Rename file:', file_name);
+                    if (new_name) {
+                        var old_ext = file_name.split('.').pop(),
+                            new_ext = new_name.split('.').pop();
+
+                        if (new_name === new_ext)
+                            new_name += '.' + old_ext;
+                        $.ajax({
+                            url: _.settings.transport.update.url,
+                            data: {
+                                dir: obj.current_path,
+                                file_name: file_name,
+                                new_name: new_name
+                            },
+                            success: function(response){
+                                var html = $current_target.data('title', new_name).html();
+                                html = html.replace(file_name, new_name);
+                                $current_target.html(html);
+                                console.log(file_name, old_ext, new_ext, new_name);
+                            }
+                        });
+                    }
+            },
+            file_properties: function(data){
+                console.log('file_properties', data);
+            },
+            refresh: function(data){
+                _getDir();
+            }
+        };
         
         /**
          * Run event listeners
@@ -254,9 +392,8 @@
             _.$elements.directory_tree.on('click', _.settings.classes.directory_tree.item, function(){
                 var $this = $(this);
                 var dir = $this.parent().data('dir');
-                if (dir) {
+                if (dir)
                     _getDir(dir);
-                }
             }).on('contextmenu', _.settings.classes.directory_tree.item, function(e){
                 e.preventDefault();
                 e.stopPropagation();
@@ -272,9 +409,9 @@
                 e.preventDefault();
                 e.stopPropagation();
                 var $this = $(this);
-                if (!e.ctrlKey && !e.shiftKey) {
+                if (!e.ctrlKey && !e.shiftKey)
                     _.$elements.all_container.find('.' + $(_.settings.template.all_list.item).attr('class').replace(/\s{1,}/gi, '.')).removeClass('selected');
-                }
+                
                 $this.addClass('selected');
                 _showContextMenu($this.data('type'), e);
             }).on('click', '.' + $(_.settings.template.all_list.item).attr('class').replace(/\s{1,}/gi, '.'), function(e){
@@ -291,15 +428,18 @@
                 
                 if ($this.data('type') === 'folder')
                     _getDir($this.data('title'));
+                else if ($this.data('type') === 'file') {
+                    // TODO: Preview file
+                }
             }).parent().parent().on('contextmenu', function(e){
                 e.preventDefault();
                 e.stopPropagation();
                 _.$elements.all_container.find('.' + $(_.settings.template.all_list.item).attr('class').replace(/\s{1,}/gi, '.')).removeClass('selected');
-                _showContextMenu('whitespace',e);
+                _showContextMenu('whitespace', e);
             });
             
             _.$elements.contextmenu.on('click', '.' + $(_.settings.template.contextmenu.item).attr('class').replace(/\s{1,}/gi, ''), function(){
-                _contextAction($(this).data());
+                _contextAction($(this).data('action'), $(this).data());
             });
         }
 

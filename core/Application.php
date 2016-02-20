@@ -24,6 +24,7 @@ class Application {
         if (method_exists($this->controller, $this->method_name)) {
             $this->controller->{$this->method_name}($this->request, $this->errorText);
         } else {
+            http_response_code(404);
             echo 'method not found!<br/>';
         }
     }
@@ -68,6 +69,7 @@ class Application {
             
             if (!file_exists($this->controller_file)) {
                 // not found
+                http_response_code(404);
                 $this->errorText = 'Controller "' . $this->controller_name . '" not found!';
                 $this->controller_file = 'core/controllers/' . (($this->admin_interface)? ADMIN_DIR . '/' : ''). 'Error.php';
                 $this->controller_name = 'Error';

@@ -38,7 +38,6 @@ function parseQuery(q) {
     }
     return obj;
 }
-;
 
 window.getCookies = function (cookie_name) {
     var cookies = document.cookie,

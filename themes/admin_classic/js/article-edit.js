@@ -1,3 +1,3 @@
 $(function(){
-    $('.file_browser-trigger').fileBrowser();
+//    $('.file_browser-trigger').fileBrowser();
 });

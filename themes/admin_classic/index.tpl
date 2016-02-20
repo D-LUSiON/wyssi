@@ -5,6 +5,7 @@
         <title>Wyssi admin</title>
         {block "stylesheets"}
             <link rel="stylesheet" type="text/css" href="{get_path asset='css/font-awesome.css'}" media="all"/>
+            <link rel="stylesheet" type="text/css" href="{get_path asset='css/jquery.equal_tabs.css'}" media="all"/>
             <link rel="stylesheet" type="text/css" href="{get_path asset='css/design.css'}" media="all"/>
         {/block}
         {block "scripts"}
@@ -12,6 +13,7 @@
             <script type="text/javascript" src="{get_path asset='js_lib/jquery.js'}"></script>
             <script type="text/javascript" src="{get_path asset='js_lib/jquery-ui.js'}"></script>
             <script type="text/javascript" src="{get_path asset='js_lib/jquery.modalWindow.js'}"></script>
+            <script type="text/javascript" src="{get_path asset='js_lib/jquery.equal_tabs.js'}"></script>
             <script type="text/javascript" src="{get_path asset='js_lib/layout.js'}"></script>
             <script type="text/javascript" src="{get_path asset='js/common-scripts.js'}"></script>
         {/block}

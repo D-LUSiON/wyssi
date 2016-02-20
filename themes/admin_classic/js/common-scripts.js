@@ -1,15 +1,25 @@
 $(function () {
     window.main_dir = $('body').data('main_dir');
+    
     $.ajaxSetup({
         headers: {
             'X-Requested-With': 'XMLHttpRequest'
-        }
+        },
+        method: 'POST'
     });
-    $('body > .loader').fadeOut(400);
+    
+    var $page_loader = $('body > .loader');
+    $page_loader.fadeOut(400);
+    
+    $(window).on('unload', function(){
+        $page_loader.show();
+    });
 
     $('.dropdown-container').on('click', function () {
         $(this).toggleClass('open');
     });
+    
+    $('.equal_tabs').equal_tabs();
 
     $('.modal-trigger').on('click', function (e) {
         e.preventDefault();

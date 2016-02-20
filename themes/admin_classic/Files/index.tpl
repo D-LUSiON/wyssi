@@ -1,4 +1,5 @@
-<script type="text/javascript" src="{get_path asset="js/jquery.fileBrowser.js"}"></script>
+<script type="text/javascript" src="{get_path asset="js_lib/jquery.fileupload.js"}"></script>
+<script type="text/javascript" src="{get_path asset="js_lib/jquery.fileBrowser.js"}"></script>
 <script type="text/javascript" src="{get_path asset="js/files-list.js"}"></script>
 <h1><span class="fa fa-desktop"></span> File browser</h1>
 <div id="breadcrumb">

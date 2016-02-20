@@ -16,8 +16,10 @@ input[type=text],
 input[type=password],
 input[type=email],
 textarea,
-select { display: block; width: 100%; margin-bottom: 10px; padding: 5px; border: 1px solid #ccc; color: #626262; }
-textarea { min-height: 250px; resize: none; }
+select { display: block; width: 100%; margin-bottom: 10px; padding: 5px; border: 1px solid transparent; border-bottom: 1px dashed #ddd; color: #626262; }
+textarea { min-height: 250px; resize: none; border: 1px solid transparent; }
+textarea:hover,
+textarea:focus { border: 1px solid #ccc; }
 
 input:-webkit-autofill { -webkit-box-shadow: 0 0 0px 1000px white inset; -webkit-text-fill-color: #888 !important; }
 
@@ -60,7 +62,7 @@ body > header { position: absolute; top: 0; z-index: 100; width: 100%; height: 4
 #MainContent-container > aside > .element-container .profile-link { display: block; }
 #MainContent-container > aside.submenu { left: -125px; z-index: 1000; width: 225px; background-color: #f0f0f0; overflow: hidden; -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; -o-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out; }
 #MainContent-container > aside.submenu.open { left: 100px; }
-#MainContent-container > aside.submenu .submenu-content { display: none; }
+#MainContent-container > aside.submenu .submenu-content { display: none; position: relative; height: 100%; }
 #MainContent-container > aside.submenu .submenu-content .element-container { display: block; border-bottom: 1px solid #ccc; padding: 5px; color: #555; }
 #MainContent-container > aside.submenu .submenu-content .element-container:after { display: block; clear: both; content: ''; }
 #MainContent-container > aside.submenu .submenu-content .element-container:hover { background-color: #ebebeb; }
@@ -77,7 +79,7 @@ body > header { position: absolute; top: 0; z-index: 100; width: 100%; height: 4
 #breadcrumb { border-bottom: 1px solid #c3c3c3; padding: 10px 32px; background-color: #f0f0f0; vertical-align: middle; }
 #breadcrumb > * { display: inline-block; color: #888; vertical-align: middle; }
 #breadcrumb > *:after { display: inline-block; margin: 0 5px; font-family: 'FontAwesome'; content: '\f101'; }
-#breadcrumb > *:last-of-type:after { display: inline-block; margin: 0 5px; font-family: 'FontAwesome'; content: ''; }
+#breadcrumb > *:last-child:after { display: inline-block; margin: 0 5px; font-family: 'FontAwesome'; content: ''; }
 #breadcrumb > *:hover { color: #666; }
 #breadcrumb > * .fa { margin-right: 5px; }
 #MainContent .edit-container {}
@@ -133,7 +135,13 @@ body > header { position: absolute; top: 0; z-index: 100; width: 100%; height: 4
 .file_browser-container > aside ul.folders_tree li.open > ul { display: block; }
 .file_browser-container > section { position: absolute; bottom: 0; top: 0; left: 0px; right: 0; margin-left: 200px; overflow-y: auto; }
 .file_browser-container > section > header { border-bottom: 1px solid #ccc; padding: 5px; }
+.file_browser-container > section > header .file_browser-upload_container { float: right; padding: 3px 7px; }
+.file_browser-container > section > header .file_browser-upload_container .button { position: relative; margin-top: -8px; overflow: hidden; }
+.file_browser-container > section > header .file_browser-upload_container .button input[type=file] { position: absolute; top: -9999px; left: -9999px; }
 .file_browser-container > section > header .file_browser-path { padding: 3px 7px; }
+.file_browser-container > section > .file_browser-progress { position: relative; min-height: 2em; border-bottom: 1px solid #ccc; font-size: 11px; }
+.file_browser-container > section > .file_browser-progress .progress { position: absolute; top: 0; left: 0; bottom: 0; z-index: 1; background-color: #5FD36A; text-align: right;  -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; -o-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out; }
+.file_browser-container > section > .file_browser-progress .progress-info { position: relative; z-index: 2; min-height: 1.2em; padding: 4px; line-height: 1.2em; }
 .file_browser-container > section > main { padding: 15px; overflow: auto; }
 .file_browser-container > section > main .file_browser-file_container {}
 .file_browser-container > section > main .file_browser-file_container:after { display: block; clear: both; content: ''; }
