@@ -44,6 +44,7 @@ class Installer {
                 break;
             case 'step_collect_data':
                 $this->saveSiteData($request);
+                $this->setBaseUrl();
                 echo json_encode(Array('redirect_url' => MAIN_DIR . ADMIN_DIR));
                 break;
 
@@ -242,6 +243,23 @@ class Installer {
         $site_settings_file = fopen('site_settings.json', 'w') or die('Unable to open file!');
         fwrite($site_settings_file, json_encode($request));
         fclose($site_settings_file);
+    }
+    
+    public function setBaseUrl(){
+        $htaccess_content = file_get_contents('.htaccess');
+        $htaccess_content = explode("\n", $htaccess_content);
+        $new_htaccess_content = '';
+        for ($i = 0; $i < count($htaccess_content); $i++) {
+            if (!preg_match('#RewriteBase#', $htaccess_content[$i]) && $htaccess_content[$i] != '') {
+                $new_htaccess_content .= $htaccess_content[$i] . "\n";
+            }
+            if (preg_match('#RewriteEngine#', $htaccess_content[$i])) {
+                $new_htaccess_content .= 'RewriteBase /' . trim(str_replace('index.php', '', $_SERVER['SCRIPT_NAME']), '/') . "\n";
+            }
+        }
+        $htaccess = fopen('.htaccess', 'w') or die('Unable to open file!');
+        fwrite($htaccess, $new_htaccess_content);
+        fclose($htaccess);
     }
 
 }
