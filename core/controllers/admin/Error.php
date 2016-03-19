@@ -14,7 +14,7 @@ class Error extends BaseController {
 
     public function noImage() {
         $name = realpath(THEMES_DIR . 'base/img/no_photo.png');
-        
+        header('HTTP/1.0 404 Not Found');
         header('Content-Type: image/png');
         header('Content-Length: ' . filesize($name));
 
