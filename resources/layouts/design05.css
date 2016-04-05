@@ -1,0 +1,5 @@
+.wrapper { width: 960px; margin: 0 auto; }
+.wrapper > section {}
+.wrapper > section:after { display: block; clear: both; content: ''; }
+.wrapper > section > aside.sidebar { float: left; width: 300px; }
+.wrapper > section > main { margin-left: 300px; }

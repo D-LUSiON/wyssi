@@ -1,9 +1,10 @@
 {
-    "type": "Layout",
+    "type": "Layout-fixed",
     "name": "Header and main content",
     "thumb": "design01.jpg",
     "resources": {
         "css": "design01.css",
-        "js": ""
+        "js": "",
+        "html": "design01.html"
     }
 }

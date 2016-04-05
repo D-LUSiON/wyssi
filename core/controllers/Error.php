@@ -8,7 +8,7 @@ class Error extends BaseController {
     }
     
     public function index($errorText = 'Method not found!'){
-        echo $errorText;
+        var_dump($errorText);
     }
 
 }

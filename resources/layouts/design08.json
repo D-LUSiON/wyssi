@@ -1,0 +1,10 @@
+{
+    "type": "Layout-fluid",
+    "name": "Header and main content",
+    "thumb": "design08.jpg",
+    "resources": {
+        "css": "design08.css",
+        "js": "",
+        "html": "design08.html"
+    }
+}

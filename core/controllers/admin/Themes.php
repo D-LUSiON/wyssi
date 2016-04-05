@@ -4,7 +4,7 @@ namespace Controllers;
 
 class Themes extends BaseController {
     public $themes;
-
+    
     function __construct() {
         parent::__construct();
     }
@@ -88,6 +88,33 @@ class Themes extends BaseController {
         } else {
             $this->json_response(Array('error' => true, 'message' => 'Plese, provide theme ID!'));
         }
-        
+    }
+    
+    public function getThemeResources(){
+        $dir = RESOURCES_DIR;
+        $results = Array();
+        $this->_scanForResources(RESOURCES_DIR, $results);
+        echo json_encode($results);
+    }
+    
+    private function _scanForResources($dir = RESOURCES_DIR, &$results = Array()) {
+        $files = scandir($dir);
+        foreach ($files as $key => $value) {
+            if ($value != '.' && $value != '..') {
+                $path = realpath($dir . DIRECTORY_SEPARATOR . $value);
+                if (is_file($path)) {
+                    if (pathinfo($path, PATHINFO_EXTENSION) == 'json'){
+                        $result = json_decode(file_get_contents($path));
+                        $main_dir = str_replace('\\', DIRECTORY_SEPARATOR, str_replace('/', DIRECTORY_SEPARATOR, $_SERVER['DOCUMENT_ROOT']));
+                        $result->path = str_replace('\\', '/', str_replace($main_dir, '', $dir)) . '/';
+                        $result->html = $this->smarty->fetch($main_dir . $result->path . $result->resources->html);
+                        $results[] = $result;
+                    }
+                } elseif (is_dir($path)) {
+                    if (!$results[$value]) $results[$value] = Array();
+                    $this->_scanForResources($path, $results[$value]);
+                }
+            }
+        }
     }
 }

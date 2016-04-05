@@ -61,5 +61,6 @@
 .tabs > .tabs-content_container {}
 .tabs > .tabs-content_container .tab-content { display: none; padding: 10px; background-color: #fff; }
 .tabs > .tabs-content_container .tab-content.current { display: block; }
+.tabs > .tabs-content_container .tab-content .tab-heading { margin-bottom: 15px; text-align: center; }
 
 /*tabs content - vertical*/

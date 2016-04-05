@@ -1,0 +1,12 @@
+{
+    "type": "Widget-general",
+    "group": "",
+    "name": "Image",
+    "thumb": "image.jpg",
+    "resources": {
+        "css": "",
+        "js": "",
+        "html": "image.html"
+    },
+    "settings": {}
+}

@@ -1,0 +1,18 @@
+{
+    "type": "Widget-general",
+    "group": "Grid system",
+    "name": "Box in grid",
+    "thumb": "grid-box.jpg",
+    "resources": {
+        "css": "",
+        "js": "",
+        "html": "section.html"
+    },
+    "settings": {
+        "padding": {
+            "title": "Padding of the box",
+            "value": "integer",
+            "value_min_max": [0, 0]
+        }
+    }
+}

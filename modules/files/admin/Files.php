@@ -29,7 +29,7 @@ class Files extends BaseController {
             );
         } else {
             $dirs = scandir($path);
-
+            
             foreach ($dirs as $key) {
                 if ($key != '.' and $key != '..') {
                     $cdir = Array(
@@ -43,7 +43,7 @@ class Files extends BaseController {
                 }
             }
         }
-        var_dump($response);
+        
         $this->json_response($response);
     }
     
@@ -82,6 +82,11 @@ class Files extends BaseController {
         } else {
             if (!file_exists($path . $request['new_folder'])) {
                 mkdir($path . $request['new_folder']);
+                chmod($path . $request['new_folder'], 0777);
+                $response = Array(
+                    'error' => false,
+                    'message' => 'OK'
+                );
             } else {
                 http_response_code(304);
                 $response = Array(
@@ -93,6 +98,20 @@ class Files extends BaseController {
         $this->json_response($response);
     }
     
+    public function remove($request){
+        $response = Array(
+            'error' => false,
+            'message' => ''
+        );
+        if (is_dir($filename)) {
+            $response['message'] = 'rmdir';
+        } else {
+            $response['message'] = 'unlink';
+        }
+        
+        $this->json_response($response);
+    }
+    
     public function upload($request) {
         $response = Array(
             'request' => $_REQUEST,
@@ -100,6 +119,6 @@ class Files extends BaseController {
             'post' => $_POST,
             'files' => $_FILES
         );
-        echo json_encode($response);
+        $this->json_response($response);
     }
 }

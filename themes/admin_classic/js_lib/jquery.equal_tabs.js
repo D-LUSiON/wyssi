@@ -102,8 +102,19 @@
             _.$element.tabs_container.addClass(_.settings.classes.has_more_tabs);
         }
         
+        this.showMoreTabsDropdown = function(){
+            _.$element.more_tabs.container.addClass(_.settings.classes.more_tabs_open);
+        };
+        
+        this.hideMoreTabsDropdown = function(){
+            if (_.$element.more_tabs.container)
+                _.$element.more_tabs.container.removeClass(_.settings.classes.more_tabs_open);
+        };
+        
         function _removeMoreTabsElements(){
-            
+            _.$element.more_tabs.dropdown.children(_.settings.selectors.tab).each(function(){
+                
+            });
         }
         
         function setCurrentTab(index){
@@ -112,9 +123,9 @@
                 var $current_tab = $(_.$element.tabs.get(index-1)).addClass(_.settings.classes.tab_current);
                 _.$element.tab_contents.removeClass(_.settings.classes.tab_content_current);
                 _.$element.tab_contents.filter($current_tab.attr('href')).addClass(_.settings.classes.tab_content_current);
-                if (_.$element.more_tabs.dropdown.find($current_tab).length === 1) {
+                if (_.$element.more_tabs.dropdown && _.$element.more_tabs.dropdown.find($current_tab).length === 1) {
                     _.$element.more_tabs.container.addClass(_.settings.classes.has_current);
-                } else {
+                } else if (_.$element.more_tabs.container){
                     _.$element.more_tabs.container.removeClass(_.settings.classes.has_current);
                 }
             }
@@ -157,9 +168,13 @@
                 e.preventDefault();
                 var $this = $(this);
                 var index = $this.index() + 1;
-                if (_.$element.more_tabs.dropdown.find($this).length === 1) {
+                
+                if (_.$element.more_tabs.dropdown && _.$element.more_tabs.dropdown.find($this).length === 1)
                     index += _.settings.visible_tabs;
-                }
+                
+                if (index <= _.settings.visible_tabs)
+                    obj.hideMoreTabsDropdown();
+                
                 setCurrentTab(index);
             });
         };

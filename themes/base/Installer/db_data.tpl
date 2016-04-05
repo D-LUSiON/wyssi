@@ -23,13 +23,13 @@
         <div class="form_row-container">
             <div class="icon_input-container">
                 <span class="fa fa-sign-in"></span>
-                <input type="text" name="db_user" placeholder="Database user" required/>
+                <input type="text" name="db_user" value="root" placeholder="Database user" required/>
             </div>
         </div>
         <div class="form_row-container">
             <div class="icon_input-container">
                 <span class="fa fa-key"></span>
-                <input type="password" name="db_pass" placeholder="Database password"/>
+                <input type="password" name="db_pass" value="" placeholder="Database password"/>
             </div>
         </div>
         <div class="buttons-container center">

@@ -32,6 +32,7 @@ class BaseController {
         $this->smarty->assign('siteDir', MAIN_DIR);
         $this->smarty->assign('mainDir', MAIN_DIR . (($_SESSION['admin_interface'] == ADMIN_DIR)? ADMIN_DIR : '') . DIRECTORY_SEPARATOR);
         $this->smarty->assign('themeDir', MAIN_DIR . THEMES_DIR . $this->templateDir . '/');
+//        echo rtrim(MAIN_DIR, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . preg_replace('/[^\da-z]/i', '', $this->smarty->getTemplateDir()[0]) . DIRECTORY_SEPARATOR . $this->smarty->current_theme . DIRECTORY_SEPARATOR;
     }
     
     public function display($template = false, $assigns, $master = 'index.tpl'){
@@ -58,11 +59,8 @@ class BaseController {
         $this->smarty->display($master);
     }
     
-    public function json_response($json = NULL) {
-        if ($json) {
-            $this->smarty->assign('json_response', json_encode($json));
-            $this->smarty->display($this->templateDir . '/' . 'json.tpl');
-        }
+    public function json_response($json = []) {
+        echo json_encode($json);
     }
 
 }

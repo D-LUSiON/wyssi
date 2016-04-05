@@ -1,0 +1,10 @@
+{
+    "type": "Layout-fluid",
+    "name": "Header, sidebar, main content and footer",
+    "thumb": "design06.jpg",
+    "resources": {
+        "css": "design06.css",
+        "js": "",
+        "html": "design06.html"
+    }
+}

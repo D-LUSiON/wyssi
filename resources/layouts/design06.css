@@ -1,0 +1,4 @@
+body > section {}
+body > section:after { display: block; clear: both; content: ''; }
+body > section > aside.sidebar { float: left; width: 300px; }
+body > section > main { margin-left: 300px; }

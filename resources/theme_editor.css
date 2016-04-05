@@ -1,0 +1,11 @@
+*,
+*:before,
+*:after { margin: 0; padding: 0; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; }
+
+body { font-family: Verdana, sans-serif; }
+body:empty { text-align: center; }
+body:empty:before { display: inline-block; margin-top: 25px; color: #e8e8e8; font-size: 32px; font-style: italic; content: 'Please, select layout!'}
+.ui-sortable { min-height: 100px; margin-bottom: 5px; border: 1px dashed #e8e8e8; padding: 5px 5px 0px 5px; }
+.ui-sortable:hover { border: 1px solid #e8e8e8; background-color: #f8f8f8; }
+.ui-sortable:empty:before { display: inline-block; margin-left: 10px; margin-top: 10px; color: #e8e8e8; font-size: 12px; font-style: italic; content: attr(data-placeholder); }
+.ui-sortable-active { background-color: red; }

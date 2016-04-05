@@ -1,0 +1,10 @@
+{
+    "type": "Layout-fixed",
+    "name": "Sidebar, header, main content and footer",
+    "thumb": "design07.jpg",
+    "resources": {
+        "css": "design07.css",
+        "js": "",
+        "html": "design07.html"
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "type": "Widget-general",
+    "group": "Grid system",
+    "name": "Section",
+    "thumb": "section.jpg",
+    "resources": {
+        "css": "",
+        "js": "",
+        "html": "section.html"
+    },
+    "settings": {
+        "childs_num": {
+            "title": "Chidren elements on row",
+            "value": "integer",
+            "value_min_max": [1, 8]
+        }
+    }
+}

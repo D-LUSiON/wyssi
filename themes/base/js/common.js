@@ -23,12 +23,11 @@ $(function(){
             data: form_data,
             method: 'POST',
             success: function(response){
-                console.log(typeof response);
                 var err = false;
                 try {
                     response = JSON.parse(response);
                 } catch (e) {} 
-               if (typeof response === 'object') {
+               if (typeof response === 'object' && response.redirect_url) {
                     window.location.assign(response.redirect_url);
                 } else {
                     $MainContent.html(response);

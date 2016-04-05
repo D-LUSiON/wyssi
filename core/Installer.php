@@ -45,7 +45,8 @@ class Installer {
             case 'step_collect_data':
                 $this->saveSiteData($request);
                 $this->setBaseUrl();
-                echo json_encode(Array('redirect_url' => MAIN_DIR . ADMIN_DIR));
+                echo json_encode(Array(
+                    'redirect_url' => DIRECTORY_SEPARATOR . ADMIN_DIR));
                 break;
 
             default: break;

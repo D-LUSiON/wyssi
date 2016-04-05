@@ -50,7 +50,7 @@
                     url: window.main_dir + 'files/mkdir'
                 },
                 remove: {
-                    url: window.main_dir + 'files/delete'
+                    url: window.main_dir + 'files/remove'
                 },
                 upload: {
                     url: window.main_dir + 'files/upload'
@@ -338,8 +338,18 @@
                 console.log('rename_folder', data);
             },
             delete_file_folder: function(data){
+                console.log(data);
                 if (confirm('Are you sure you want to delete?')) {
-                    console.log('delete_file_folder', data);
+                    $.ajax({
+                        url: _.settings.transport.remove.url,
+                        data: {
+                            dir: obj.current_path,
+                            new_folder: new_folder
+                        },
+                        success: function(response){
+                            _getDir();
+                        }
+                    });
                 }
             },
             file_upload: function(data){

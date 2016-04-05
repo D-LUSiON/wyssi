@@ -2,234 +2,396 @@
  * TITLE: WYSSI theme editor script
  * AUTHOR: Lubomir Peikov
  * VERSION: v0.0.1
- * COPYRIGHT: MIT license!
- *
+ * COPYRIGHT:
+ *      (2015 - 2016) D-LUSiON;
+ *      Licensed under the MIT license: http://www.opensource.org/licenses/MIT
+ * 
+ * @author D-LUSiON
+ * @version v0.0.1
  * @param {object} $ - jQuery
  * @param {object} window
  * @param {object} document
  * @returns {object}
  */
 
-;(function($, window, document) {
+/**
+ * Changelog:
+ * 
+ * v0.0.1:
+ * - Initial build
+ */
+
+(function (factory) {
+    'use strict';
+    if (typeof define === 'function' && define.amd) {
+        // Register as an anonymous AMD module:
+        define([
+            'jquery',
+            'jquery.ui'
+        ], factory);
+    } else {
+        // Browser globals:
+        factory(window.jQuery);
+    }
+}(function ($) {
     'use strict';
     var pluginName = 'themeEditor',
         version = 'v0.0.1',
         dependancies = [],
-        local_namespace = {};
+        local_namespace = {},
+        
+        CONST = {};
 
     if (typeof window.Localization === 'undefined')
         window.Localization = {};
 
     window.Localization[pluginName] = {
-        en: {}
+        en: {},
+        bg: {}
     };
     
-    var Theme = function(options){
+    var Theme = function (options) {
         var obj = this;
-        
+
         var defaults = {
-            url: {
-                get_theme: 'admin/themes/getTheme',
-                save_theme: 'admin/themes/saveTheme'
+            transport: {
+                get: '/admin/themes/getTheme',
+                save: '/admin/themes/saveTheme'
             }
         };
-        
+
         this.id;
         this.layout;
         this.sections;
         this.elements;
         this.widgets;
-        
+
         var _ = {
             settings: $.extend(true, {}, defaults, options || {})
         };
-        
-        function __construct(){}
-        
-        this.getTheme = function(id){
-            
-        };
-        
+
+        function __construct() {}
+
+        this.getTheme = function (id) {};
+
         __construct();
     };
 
-    /**
-     * Main Class of the plugin
-     *
-     * @param {DOM} element
-     * @param {object} options
-     * @returns {undefined}
-     */
-    local_namespace[pluginName] = function(element, options) {
+    var ThemeResources = function (options) {
         var obj = this;
-        /**
-         * Default settings for the plugin
-         * @type object
-         */
+
         var defaults = {
+            transport: {
+                get: '/admin/themes/getThemeResources'
+            }
+        };
+
+        this.data = {};
+
+        var _ = {
+            settings: $.extend(true, {}, defaults, options || {})
+        };
+
+        function __construct() {
+        }
+
+        this.getResources = function (callback) {
+            $.ajax({
+                url: _.settings.transport.get,
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    obj.data = response;
+                    if (typeof callback === 'function')
+                        callback(response);
+                }
+            });
+        };
+
+        __construct();
+    };
+
+    local_namespace[pluginName] = function (element, options) {
+        var obj = this;
+        this.defaults = {
             lang: 'en',
             selectors: {
                 iframe: '#ThemeEditor-container > iframe',
                 main_menu_container: 'body .layouts-container > img',
-                main_preview_container: '#ThemeEditor-container'
+                main_preview_container: '#ThemeEditor-container',
+                layouts_container: '.layouts_list-container',
+                elements_container: '.elements_list-container'
             },
             url: {
                 get_resources: 'admin/themes/getResources'
             },
-            html: {
-                
+            templates: {
+                layout: '<div class="layout-container">'+
+                            '<div class="image-container">'+
+                                '<img src="[[thumb_src]]" alt="" title="[[thumb]] - [[name]]"/>'+
+                            '</div>'+
+                        '</div>',
+                widget: '<div class="widget-container draggable">'+
+                            '<div class="image-container">'+
+                                '<img src="[[thumb_src]]" alt="" title="[[thumb]] - [[name]]"/>'+
+                            '</div>'+
+                            '<div class="widget-title">[[name]]</div>'+
+                        '</div>'
+            },
+            droppable_settings: {
+                iframeFix: true,
+                drop: function (e, ui) {
+                    var dropped_data = $(ui.draggable).data(),
+                        $dropped_element = $(dropped_data.html).data(dropped_data);
+                    $dropped_element.appendTo(e.target);
+                    console.log(ui, e.target);
+                }
             }
         };
         
-        var _ = {
-            $elements: {
-                body: $('body')
-            },
-            settings: $.extend(true, {}, defaults, options || {}),
-            main_dir: ''
+        this.$selectors = {
+            body: $('body')
         };
         
-        var theme = new Theme();
+        this.settings = $.extend(true, {}, this.defaults, options || {});
+        
+        this.localization = window.Localization[pluginName][this.settings.lang];
+        
+        var _ = {
+            main_dir: '',
+            ie_lt_9: ($.browser.msie && parseFloat($.browser.version) > 9) || (!$.browser.msie && navigator.userAgent.indexOf('Trident') === -1)
+        };
+        
+        this.Theme = new Theme();
 
-        /**
-         * Initialization of the object
-         * @returns {object} Plugin class instance
-         */
+        this.Resources = new ThemeResources();
+        
         function __construct() {
             _buildSelectors();
             _buildHTMLElements();
-            _getResources(function(elements_data){
-                console.log(elements_data);
-                _runEventListeners();
+            _injectEditorStyles();
+            obj.Resources.getResources(function (elements_data) {
+                _setLoadedElementsToView();
+                // init here draggable and droppable
+                _startEventListeners();
             });
-            _.$elements.iframe.body.html('<h1 style="color: red;">Hello world!</h1>');
-            // init here draggable and droppable
             return this;
         }
+
+        function _translate(text, custom_value, custom_text, lang) {
+            if (text) {
+                if (custom_value && custom_text) {
+                    return text.replace(new RegExp('%' + custom_value + '%', 'gi'), custom_text);
+                } else {
+                    return text.replace(/\%(.+?)\%/gi, function ($0, $1) {
+                        if (window.Localization[pluginName][lang || obj.settings.lang][$1])
+                            return window.Localization[pluginName][lang || obj.settings.lang][$1];
+                        else
+                            return window.Localization[pluginName][lang || obj.defaults.lang][$1] || '';
+                    });
+                }
+            } else {
+                return false;
+            }
+        }
+
+        function _renderTemplate(template, data) {
+            if (template && data) {
+                return _translate(
+                            template.replace(/\[\[(.+?)\]\]/gi, function ($0, $1) {
+                                return data[$1] || '';
+                            })
+                        );
+            }
+            
+            throw new Error('Please, provide valid template AND data!');
+            return false;
+        }
         
-        function _buildSelectors(){
-            for (var key in _.settings.selectors) {
-                _.$elements[key] = $(_.settings.selectors[key]);
-                var nodeType = (_.$elements[key].get(0) || {}).tagName;
+        function _buildSelectors() {
+            for (var key in obj.settings.selectors) {
+                obj.$selectors[key] = $(obj.settings.selectors[key]);
+                var nodeType = (obj.$selectors[key].get(0) || {}).tagName;
                 if (nodeType && (nodeType || '').toLowerCase() === 'iframe') {
-                    _.$elements[key] = {
-                        html: _.$elements[key].contents().find('html'),
-                        head: _.$elements[key].contents().find('head'),
-                        body: _.$elements[key].contents().find('body')
+                    obj.$selectors[key] = {
+                        html: obj.$selectors[key].contents().find('html'),
+                        head: obj.$selectors[key].contents().find('head'),
+                        body: obj.$selectors[key].contents().find('body')
                     };
                 }
             }
-            
-            _.main_dir = _.$elements.body.data('main_dir');
+
+            _.main_dir = obj.$selectors.body.data('main_dir');
             return true;
         }
         
-        function _buildHTMLElements(){
-            
+        function _buildHTMLElements() {}
+        
+        function _injectEditorStyles() {
+            obj.$selectors.iframe.head.append('<link rel="stylesheet" href="/resources/theme_editor.css" data-rel="editor_styles"/>');
         }
         
-        function _getResources(callback){
-            if (1 !== 1)
-                $.ajax({
-                    url: _.main_dir + _.settings.url.get_resources,
-                    //dataType: 'json',
-                    success: function(data){
-                        if (typeof callback === 'function') {
-                            callback(data);
+        function _setLoadedElementsToView() {
+            for (var key in obj.Resources.data) {
+                switch (key) {
+                    case 'layouts':
+                        _setLayoutsToView(obj.Resources.data[key]);
+                        break;
+                    case 'elements':
+                        _setElementsToView(obj.Resources.data[key]);
+                        break;
+                    default: break;
+                }
+            }
+        }
+        
+        function _setLayoutsToView(layouts_data){
+            if (layouts_data instanceof Array) {
+                layouts_data.forEach(function(current, index){
+                    current.thumb_src = current.path + current.thumb;
+                    var template = _renderTemplate(obj.settings.templates.layout, current),
+                        $target = obj.$selectors.layouts_container.filter('[data-element_type="' + current.type.toLowerCase() + '"]'),
+                        $layout = $(template).data('element', current).appendTo($target);
+                });
+            } else {
+                console.error('Wrong layouts data!');
+            }
+        }
+        
+        function _setElementsToView(elements_data){
+            if (typeof elements_data === 'object') {
+                for (var key in elements_data) {
+                    if (elements_data[key] instanceof Array) {
+                        for (var i = 0, max = elements_data[key].length; i < max; i++) {
+                            // set to appropriate places
+                            var current = elements_data[key][i];
+                            current.thumb_src = current.path + current.thumb;
+                            var template = _renderTemplate(obj.settings.templates.widget, current),
+                                $target = obj.$selectors.elements_container.filter('[data-element_type="' + current.type.toLowerCase() + '"]');
+                            var $element = $(template).data('element', current).appendTo($target).draggable({
+                                iframeFix: true,
+                                connectToSortable: obj.$selectors.iframe.body.find('.ui-sortable'),
+                                helper: 'clone',
+                                stop: function(){
+                                    $element.draggable('option', 'connectToSortable', obj.$selectors.iframe.body.find('.ui-sortable'));
+                                }
+                            });
                         }
                     }
-                });
-            else
-                callback();
+                }
+            } else {
+                console.error('Wrong elements data!');
+            }
         }
         
-        /**
-         * Run event listeners
-         * @returns {Boolean}
-         */
-        function _runEventListeners(){
-            _.$elements.main_menu_container.draggable({
-                helper: 'clone'
+        function _onElementDrop(e, ui) {
+            console.log($(ui.item).data());
+            var dropped_data = $(ui.item).data('element'),
+                $dropped_element = $(dropped_data.html).data('element', dropped_data);
+            $dropped_element.appendTo(e.target);
+            if ($dropped_element.hasClass('.ui-sortable'))
+                $dropped_element.sortable({
+                    revert: true,
+                    connectWith: '.ui-sortable',
+                    hoverClass: 'ui-sortable-active',
+                    iframeFix: true,
+                    stop: _onElementDrop
+                });
+            $('.ui-sortable').sortable('refresh');
+        }
+        
+        function _setLayoutToIframe(data){
+            obj.$selectors.iframe.head
+                    .find('link').not('[data-rel="editor_styles"]')
+                    .remove();
+            obj.$selectors.iframe.head
+                    .append('<link rel="stylesheet" href="'+ data.path + data.resources.css + '"/>');
+            
+            obj.$selectors.iframe.body.html(data.html);
+            obj.Theme.layout = data;
+        }
+
+        function _startEventListeners() {
+//            obj.$selectors.main_menu_container.draggable({
+//                helper: 'clone'
+//            });
+//            obj.$selectors.iframe.body.droppable({
+//                drop: function (e, ui) {
+//                    var dropped_data = $(ui.draggable).data(),
+//                        $dropped_element = $(dropped_data.html).data(dropped_data);
+//                    console.log(ui, e.target);
+//                }
+//            });
+            obj.$selectors.iframe.body.on('DOMNodeInserted', function(e){
+                $(e.target).find('.ui-sortable')
+                            .sortable({
+                                revert: true,
+                                connectWith: '.ui-sortable',
+                                hoverClass: 'ui-sortable-active',
+                                iframeFix: true,
+                                stop: _onElementDrop
+                            });
             });
-            _.$elements.main_preview_container.droppable({
-                drop: function(e, ui){
-                    console.log($(ui.draggable).data());
-                    //$(this).append($(ui.draggable).clone());
-                }
+            obj.$selectors.layouts_container.on('click', '> *', function(){
+                var el_data = $(this).data('element');
+                _setLayoutToIframe(el_data);
             });
             return true;
         }
+        
+        this.enable = function(){
+            return this;
+        };
+        
+        this.disable = function(){
+            return this;
+        };
+        
+        this.destroy = function(){
+            return this.$selectors.root;
+        };
 
-        /**
-         * @description Returns current plugin version
-         * @returns {string}
-         */
-        this.version = function(){
+        __construct();
+    };
+
+
+    local_namespace[pluginName].prototype = {
+        version: function () {
             return version;
-        };
+        },
 
-        /**
-         * @description Returns current settings
-         * @returns {object}
-         */
-        this.getSettings = function() {
-            return _.settings;
-        };
+        getSettings: function () {
+            return this.settings;
+        },
 
-        /**
-         * @description Sets an option
-         * @example $('.some-selector').pluginName('some_option', 'option_value');
-         * @example $('.some-selector').pluginName('some_option', { opt1: 1, opt2: 2: opt3: 'text_value'});
-         * @param {string|object} option
-         * @param {string|number|array|object} value
-         * @returns {object} jQuery selector or error
-         */
-        this.setSettings = function(option, value) {
+        setSettings: function (option, value) {
             switch (typeof option) {
                 case 'string':
                     if (option && value) {
                         var new_options = {};
                         new_options[option] = value;
-                        _.settings = $.extend(true, {}, _.settings, new_options || {});
+                        this.settings = $.extend(true, {}, this.settings, new_options || {});
                         return _.$element.root;
                     } else
                         throw new Error('Please, provide valid option to change and its value or the whole settings object!');
                     break;
                 case 'object':
-                    _.settings = $.extend(true, {}, _.settings, option || {});
+                    this.settings = $.extend(true, {}, this.settings, option || {});
                     return _.$element.root;
                     break;
                 default:
                     throw new Error('Please, provide valid option to change and its value or the whole settings object!');
                     break;
             }
-        };
-        
-        /**
-         * 
-         * @param {string} func_name Custom function name
-         * @param {function} func Custom function itself
-         * @returns {object} Plugin class instance
-         */
-        this.customFunction = function(func_name, func){
-            if (obj.hasOwnProperty(func_name)) {
-                if (window.console && console.error) console.error('You cannot overwrite already defined custom function!');
-            } else {
-                obj[func_name] = func;
-            }
-            return this;
-        };
-
-        __construct();
-
+        }
     };
-    
-    $[pluginName] = function(options, parameters){
+
+    $[pluginName] = function (options, parameters) {
         var all_dependancies_loaded = true;
         var missing_dependancies = [];
 
         if (dependancies.length > 0) {
-            $.each(dependancies, function(i, val){
+            $.each(dependancies, function (i, val) {
                 if (typeof $.fn[val] === 'undefined') {
                     all_dependancies_loaded = false;
                     missing_dependancies.push(val);
@@ -238,10 +400,10 @@
         }
         if (all_dependancies_loaded) {
             var args = arguments,
-                result;
-            
+                    result;
+
             var $this = $('body'),
-                data = $this.data(pluginName);
+                    data = $this.data(pluginName);
 
             if (!data || typeof data === 'undefined') {
                 var instance = new local_namespace[pluginName](this, options);
@@ -254,4 +416,4 @@
             }
         }
     };
-})(jQuery, window, document);
+}));
