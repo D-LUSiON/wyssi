@@ -35,7 +35,7 @@ class BaseController {
 //        echo rtrim(MAIN_DIR, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . preg_replace('/[^\da-z]/i', '', $this->smarty->getTemplateDir()[0]) . DIRECTORY_SEPARATOR . $this->smarty->current_theme . DIRECTORY_SEPARATOR;
     }
     
-    public function display($template = false, $assigns, $master = 'index.tpl'){
+    public function display($template = false, $assigns = [], $master = 'index.tpl'){
         $this->caller = debug_backtrace()[1];
         $this->caller_controller = explode('\\', strtolower(rtrim($this->caller['class'])))[1];
         $this->caller_method = $this->caller['function'];

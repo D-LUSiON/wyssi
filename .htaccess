@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteBase /
+RewriteBase /wyssi
 
 # missing image redirect
 RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
